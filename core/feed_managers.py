@@ -1,4 +1,5 @@
 from django.conf import settings
+import os
 import stream
 
 
@@ -9,7 +10,7 @@ else:
     stream_client = stream.connect()
 
 
-if not(settings.STREAM_API_KEY and settings.STREAM_API_SECRET):
+if os.environ.get('STREAM_URL') is None and not(settings.STREAM_API_KEY and settings.STREAM_API_SECRET):
     raise KeyboardInterrupt('Stream credentials are not set in your settings')
 
 
