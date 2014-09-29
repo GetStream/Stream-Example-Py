@@ -34,10 +34,10 @@ def feed(request):
     Items pinned by the people you follow
     '''
     context = RequestContext(request)
-    feed = manager.get_feeds(request.user.id)['user']
+    feed = manager.get_feeds(request.user.id)['flat']
     if request.REQUEST.get('delete'):
         feed.delete()
-    activities = feed.get_activities(limit=25)
+    activities = feed.get(limit=25)['results']
     context['feed_pins'] = enrich_activities(activities)
     response = render_to_response('core/feed.html', context)
     return response
@@ -52,7 +52,7 @@ def aggregated_feed(request):
     feed = manager.get_feeds(request.user.id)['aggregated']
     if request.REQUEST.get('delete'):
         feed.delete()
-    activities = feed.get_activities(limit=25)
+    activities = feed.get(limit=25)['results']
     context['feed_pins'] = enrich_aggregated_activities(activities)
     response = render_to_response('core/aggregated_feed.html', context)
     return response
@@ -66,7 +66,7 @@ def profile(request, username):
     feed = manager.get_user_feed(profile_user.id)
     if request.REQUEST.get('delete'):
         feed.delete()
-    activities = list(feed[:25])
+    activities = feed.get(limit=25)['results']
     context = RequestContext(request)
     context['profile_user'] = profile_user
     context['profile_pins'] = enrich_activities(activities)
@@ -137,10 +137,10 @@ def enrich_activities(activities):
     Load the models attached to these activities
     (Normally this would hit a caching layer like memcached or redis)
     '''
-    pin_ids = [a.object_id for a in activities]
+    pin_ids = [a['object'] for a in activities]
     pin_dict = Pin.objects.in_bulk(pin_ids)
     for a in activities:
-        a.pin = pin_dict.get(a.object_id)
+        a['pin'] = pin_dict.get(int(a['object']))
     return activities
 
 
@@ -152,10 +152,10 @@ def enrich_aggregated_activities(aggregated_activities):
     pin_ids = []
     for aggregated_activity in aggregated_activities:
         for activity in aggregated_activity.activities:
-            pin_ids.append(activity.object_id)
+            pin_ids.append(activity['object'])
 
     pin_dict = Pin.objects.in_bulk(pin_ids)
     for aggregated_activity in aggregated_activities:
         for activity in aggregated_activity.activities:
-            activity.pin = pin_dict.get(activity.object_id)
+            activity['pin'] = pin_dict.get(activity['object'])
     return aggregated_activities
