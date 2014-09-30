@@ -17,6 +17,6 @@
     "stream"
   ],
   "scripts": {
-    "postdeploy": "./setup-heroku.sh"
+    "postdeploy": "python manage.py after_deploy"
   }
 }
