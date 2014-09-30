@@ -18,12 +18,12 @@
                             <i class="glyphicon glyphicon-time"></i> {{ aggregated_activity.updated_at|timesince }} ago
                         </div>
                         <div class="aggregation-title">
-                            <span>{{ aggregated_activity.last_activities|length }} pins </span>
+                            <span>{{ aggregated_activity.activities|length }} pin{{ aggregated_activity.activities|length|pluralize }} </span>
                             {# DEBUG <span class="text-muted">{{ activity }} Group: {{ aggregated_activity.group }}</span> #}
                         </div>
                     </div>
                 </div>
-                {% for activity in aggregated_activity.last_activities %}
+                {% for activity in aggregated_activity.activities|slice:":5" %}
                     {% with activity.pin as pin %}
                     <article class="pin">
                         <figure>

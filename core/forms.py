@@ -53,10 +53,10 @@ class FollowForm(forms.Form):
         if remove:
             follows = Follow.objects.filter(user=user, target=target)
             for follow in follows:
-                manager.unfollow_user(follow.user_id, follow.target_id)
+                manager.unfollow_user(follow)
                 follow.delete()
             return
 
         follow = Follow.objects.create(user_id=user, target_id=target)
-        manager.follow_user(follow.user_id, follow.target_id)
+        manager.follow_user(follow)
         return follow

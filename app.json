@@ -15,5 +15,8 @@
   },
   "addons": [
     "stream"
-  ]
+  ],
+  "scripts": {
+    "postdeploy": "./setup-heroku.sh"
+  }
 }

@@ -151,11 +151,12 @@ def enrich_aggregated_activities(aggregated_activities):
     '''
     pin_ids = []
     for aggregated_activity in aggregated_activities:
-        for activity in aggregated_activity.activities:
+        for activity in aggregated_activity['activities']:
             pin_ids.append(activity['object'])
 
     pin_dict = Pin.objects.in_bulk(pin_ids)
     for aggregated_activity in aggregated_activities:
-        for activity in aggregated_activity.activities:
-            activity['pin'] = pin_dict.get(activity['object'])
+        for activity in aggregated_activity['activities']:
+            activity['pin'] = pin_dict.get(int(activity['object']))
+    print aggregated_activities
     return aggregated_activities
