@@ -11,6 +11,7 @@
   "logo": "http://33.media.tumblr.com/avatar_be8b5eef9ae6_128.png",
   "success_url": "/",
   "env": {
+    "BUILDPACK_URL": "git://github.com/heroku/heroku-buildpack-python.git",
     "DISABLE_COLLECTSTATIC": "1"
   },
   "addons": [
