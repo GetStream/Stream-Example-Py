@@ -29,6 +29,7 @@ TEMPLATE_DIRS = (
 )
 
 COMPRESS_OFFLINE = True
+COMPRESS_ENABLED = True
 COMPRESS_PRECOMPILERS = (
     ('text/x-sass', 'sass {infile} {outfile}'),
     ('text/x-scss', 'sass --scss {infile} {outfile}'),
@@ -49,7 +50,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 SECRET_KEY = 'ib_^kc#v536)v$x!h3*#xs6&l8&7#4cqi^rjhczu85l9txbz+w'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = TEMPLATE_DEBUG = bool(os.environ.get('DEBUG', False))
+DEBUG = TEMPLATE_DEBUG = True
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 ALLOWED_HOSTS = ['*']
