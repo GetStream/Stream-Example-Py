@@ -1,7 +1,7 @@
 Stream Example App
 ------------------
 
-A simplified Pinterest clone app built using GetStream.io, Python and Django.
+This example Django app shows you how you can use [GetStream.io](https://getstream.io/ "GetStream.io") to built a site similar to Pinterest.
 
 The best way to try this application is via Heroku; you can deploy this example (for free) on Heroku
 by pressing the Deploy button below.
