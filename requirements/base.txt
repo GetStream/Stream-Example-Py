@@ -2,5 +2,4 @@ django==1.5.5
 stream-python
 south
 pillow
-django-celery
 django_compressor
