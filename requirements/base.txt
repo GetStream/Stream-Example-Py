@@ -3,3 +3,4 @@ stream-python
 south
 pillow
 django_compressor
+pytz
