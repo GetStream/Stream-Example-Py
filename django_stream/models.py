@@ -8,10 +8,13 @@ from django_stream import model_managers
 
 
 class Activity(models.Model):
+    # which feed to push this activity to
+    feeds = ['user']
+    # Set to False to temporarily/permanently disable posting
+    broadcast_activity = True
+    
     created_at = models.DateTimeField(auto_now_add=True)
     
-    broadcast_activity = True
-    # Set to False to temporarily/permanently disable posting
     
     def extra_activity_data(self):
         '''
