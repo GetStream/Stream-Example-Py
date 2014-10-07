@@ -39,27 +39,27 @@ class PinManager(object):
         result = feed.remove_activity(foreign_id=activity['foreign_id'])
         return result
 
-    def _set_follow_user(self, user_id, target_id, method='follow'):
-        '''
-        Makes the aggregated:user_id and flat:user_id
-        follow/unfollow
-        user:target_id
-        '''
-        target_feed_id = 'user:%s' % target_id
-        results = []
-        for feed_slug in ['aggregated', 'flat']:
-            feed = stream_client.feed('%s:%s' % (feed_slug, user_id))
-            operation = getattr(feed, method)
-            result = operation(target_feed_id)
-            results.append(result)
-        return result
-
-    def follow_user(self, follow):
-        self._set_follow_user(
-            follow.user_id, follow.target_id, method='follow')
-
-    def unfollow_user(self, follow):
-        return self._set_follow_user(follow.user_id, follow.target_id, method='unfollow')
+#     def _set_follow_user(self, user_id, target_id, method='follow'):
+#         '''
+#         Makes the aggregated:user_id and flat:user_id
+#         follow/unfollow
+#         user:target_id
+#         '''
+#         target_feed_id = 'user:%s' % target_id
+#         results = []
+#         for feed_slug in ['aggregated', 'flat']:
+#             feed = stream_client.feed('%s:%s' % (feed_slug, user_id))
+#             operation = getattr(feed, method)
+#             result = operation(target_feed_id)
+#             results.append(result)
+#         return result
+# 
+#     def follow_user(self, follow):
+#         self._set_follow_user(
+#             follow.user_id, follow.target_id, method='follow')
+# 
+#     def unfollow_user(self, follow):
+#         return self._set_follow_user(follow.user_id, follow.target_id, method='unfollow')
 
 
 manager = PinManager()

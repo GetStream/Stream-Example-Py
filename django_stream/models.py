@@ -4,6 +4,7 @@ from django.db import models
 from django.utils.timezone import make_naive
 import pytz
 from django.template.defaultfilters import slugify
+from django_stream import model_managers
 
 
 class Activity(models.Model):
@@ -129,13 +130,17 @@ class Follow(Activity):
     updated_at = models.DateTimeField(auto_now=True)
     deleted_at = models.DateTimeField(blank=True, null=True)
     
+    objects = model_managers.FollowManager()
+    
     def delete(self, *args, **kwargs):
         self.unfollow_user()
         
     def save(self, *args, **kwargs):
         created = not self.id
-        if created:
+        result = Activity.save(self, *args, **kwargs)
+        if created and not self.deleted_at:
             self.follow_user()
+        return result
         
     def add_notification(self, user_id, activity):
         feed = stream_client.feed('notification:%s' % user_id)
