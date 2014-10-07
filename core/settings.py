@@ -146,5 +146,5 @@ LOGGING = {
 }
 
 # if you run on Heroku you don't need to set this
-STREAM_API_KEY = ''
-STREAM_API_SECRET = ''
+STREAM_API_KEY = 'pxmffpzgnmff'
+STREAM_API_SECRET = 'zc4tbmja38rjb264dtvybaqmnasc9m99wdagmhupg6jq7h8c3keydwtgmnzmhwqs'

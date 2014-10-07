@@ -1,8 +1,9 @@
-from core.models import Follow, Pin
-from django import forms
 from core.feed_managers import manager
-from core.models import Board
+from core.models import Board, Pin
+from django import forms
 from django.template.defaultfilters import slugify
+from django_stream.models import Follow
+
 
 
 class PinForm(forms.ModelForm):
@@ -21,7 +22,6 @@ class PinForm(forms.ModelForm):
             pins = Pin.objects.filter(
                 user=user, item=self.cleaned_data['item'])
             for pin in pins:
-                manager.remove_pin(pin)
                 pin.delete()
             return
 
@@ -35,8 +35,6 @@ class PinForm(forms.ModelForm):
         pin.board = board
         pin.save()
 
-        # forward the pin to manager
-        manager.add_pin(pin)
         return pin
 
 

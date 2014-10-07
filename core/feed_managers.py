@@ -39,17 +39,6 @@ class PinManager(object):
         result = feed.remove_activity(foreign_id=activity['foreign_id'])
         return result
 
-    def add_pin(self, pin):
-        activity = pin.create_activity()
-        result = self.add_user_activity(pin.user_id, activity)
-        return result
-    
-    def remove_pin(self, pin):
-        activity = pin.create_activity()
-        # removes the pin from the user's followers feeds
-        result = self.remove_user_activity(pin.user_id, activity)
-        return result
-
     def _set_follow_user(self, user_id, target_id, method='follow'):
         '''
         Makes the aggregated:user_id and flat:user_id
