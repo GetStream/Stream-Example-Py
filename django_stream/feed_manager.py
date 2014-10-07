@@ -12,31 +12,34 @@ DEFAULT_USER_FEEDS = {
 }
 
 
-class FeedsManager(object):
+class FeedManager(object):
 
     def __init__(self):
         self.content_type_models = {}
         self.personal_feed = DEFAULT_PERSONAL_FEED
         self.user_feeds = DEFAULT_USER_FEEDS
 
-    def get_activity_actor_feed(self, instance=None):
-        #TODO: make default configurable via Django settings
-        if instance is not None and instance.author_feed is not None:
-            feed_type = instance.author_feed
-        else:
+    def get_personal_feed(self, user_id, feed_type=None):
+        if feed_type is None:
             feed_type = self.personal_feed
-        feed = stream_client.feed('%s:%s' % (feed_type, instance.author_id))
+        feed = stream_client.feed('%s:%s' % (feed_type, user_id))
         return feed
+
+    def get_actor_feed(self, instance=None):
+        if instance.author_feed is not None:
+            return instance.author_feed
+        else:
+            return self.personal_feed
 
     def follow_user(self, user_id, target_user_id):
         user_feeds = self.get_user_feeds(user_id)
-        target_feed = self.get_activity_actor_feed(target_user_id)
+        target_feed = self.get_personal_feed(target_user_id)
         for feed in user_feeds:
             self.unfollow_feed(target_feed)
 
     def unfollow_user(self, user_id, target_user_id):
         user_feeds = self.get_user_feeds(user_id)
-        target_feed = self.get_activity_actor_feed(target_user_id)
+        target_feed = self.get_personal_feed(target_user_id)
         for feed in user_feeds:
             self.unfollow_feed(target_feed)
 
@@ -52,12 +55,14 @@ class FeedsManager(object):
     def activity_created(self, sender, instance, created, **kwargs):
         if created:
             activity = instance.create_activity()
-            feed = self.get_activity_actor_feed(instance)
+            feed_type = self.get_actor_feed(instance)
+            feed = self.get_feed(feed_type, instance.actor_id)
             result = feed.add_activity(activity)
             return result
 
     def activity_delete(self, sender, instance, **kwargs):
-        feed = self.get_activity_actor_feed(instance)
+        feed_type = self.get_actor_feed(instance)
+        feed = self.get_feed(feed_type, instance.actor_id)
         result = feed.remove_activity(foreign_id=instance.foreign_id)
         return result
 
@@ -68,5 +73,5 @@ class FeedsManager(object):
             post_delete.connect(self.activity_delete, sender=sender)
 
 
-feed_manager = FeedsManager()
+feed_manager = FeedManager()
 class_prepared = class_prepared.connect(feed_manager.bind_model)

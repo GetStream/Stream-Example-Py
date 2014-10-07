@@ -5,6 +5,10 @@ import pytz
 
 class Activity(object):
     
+    @property
+    def author_feed(self):
+        pass
+
     @classmethod
     def content_type(cls):
         '''

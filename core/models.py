@@ -4,6 +4,8 @@ from django_stream.activity import Activity
 
 
 class BaseModel(models.Model):
+    created_at = models.DateTimeField(blank=True, null=True, auto_now_add=True)
+
     class Meta:
         abstract = True
 
@@ -30,7 +32,18 @@ class Pin(Activity, BaseModel):
     influencer = models.ForeignKey(
         settings.AUTH_USER_MODEL, related_name='influenced_pins')
     message = models.TextField(blank=True, null=True)
-    
+
     def extra_activity_data(self):
         return dict(item_id=self.item_id)
 
+
+class Follow(BaseModel):
+    '''
+    A simple table mapping who a user is following.
+    For example, if user is Kyle and Kyle is following Alex,
+    the target would be Alex.
+    '''
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, related_name='following_set')
+    target = models.ForeignKey(
+        settings.AUTH_USER_MODEL, related_name='follower_set')
