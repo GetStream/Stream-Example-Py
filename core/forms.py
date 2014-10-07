@@ -1,9 +1,8 @@
-from core.feed_managers import manager
+from django_stream.feed_managers import feed_manager
 from core.models import Board, Pin
 from django import forms
 from django.template.defaultfilters import slugify
-from django_stream.models import Follow
-
+from core.models import Follow
 
 
 class PinForm(forms.ModelForm):
@@ -51,10 +50,10 @@ class FollowForm(forms.Form):
         if remove:
             follows = Follow.objects.filter(user=user, target=target)
             for follow in follows:
-                manager.unfollow_user(follow)
+                feed_manager.unfollow_user(user, target)
                 follow.delete()
             return
 
         follow = Follow.objects.create(user_id=user, target_id=target)
-        manager.follow_user(follow)
+        feed_manager.follow_user(user, target)
         return follow

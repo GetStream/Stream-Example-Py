@@ -1,13 +1,13 @@
 from core import forms
 from core.models import Item
+from core.models import Pin
 from django.contrib.auth import authenticate, get_user_model, \
     login as auth_login
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
-from core.models import Pin
-from core.feed_managers import manager
+from django_stream.feed_managers import feed_manager
 import json
 
 
@@ -34,7 +34,7 @@ def feed(request):
     Items pinned by the people you follow
     '''
     context = RequestContext(request)
-    feed = manager.get_feeds(request.user.id)['flat']
+    feed = feed_manager.get_feeds(request.user.id)['flat']
     if request.REQUEST.get('delete'):
         feed.delete()
     activities = feed.get(limit=25)['results']
@@ -49,7 +49,7 @@ def aggregated_feed(request):
     Items pinned by the people you follow
     '''
     context = RequestContext(request)
-    feed = manager.get_feeds(request.user.id)['aggregated']
+    feed = feed_manager.get_feeds(request.user.id)['aggregated']
     if request.REQUEST.get('delete'):
         feed.delete()
     activities = feed.get(limit=25)['results']
@@ -63,7 +63,7 @@ def profile(request, username):
     Shows the users profile
     '''
     profile_user = get_user_model().objects.get(username=username)
-    feed = manager.get_user_feed(profile_user.id)
+    feed = feed_manager.get_user_feed(profile_user.id)
     if request.REQUEST.get('delete'):
         feed.delete()
     activities = feed.get(limit=25)['results']

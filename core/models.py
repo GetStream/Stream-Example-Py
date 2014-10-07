@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.db import models
-from django_stream.models import Activity
+from django_stream.activity import Activity
 
 
 class BaseModel(models.Model):
@@ -23,7 +23,7 @@ class Board(BaseModel):
     slug = models.SlugField()
 
 
-class Pin(Activity):
+class Pin(Activity, BaseModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     item = models.ForeignKey(Item)
     board = models.ForeignKey(Board)
