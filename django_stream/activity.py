@@ -20,8 +20,8 @@ class Activity(object):
         '''
         return model_content_type(cls)
 
-    @property
-    def related_models(self):
+    @classmethod
+    def related_models(cls):
         '''
         Use this hook to setup related data to preload
         when reading activities from feeds.
