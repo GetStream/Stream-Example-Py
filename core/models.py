@@ -33,6 +33,10 @@ class Pin(Activity, BaseModel):
         settings.AUTH_USER_MODEL, related_name='influenced_pins')
     message = models.TextField(blank=True, null=True)
 
+    @classmethod
+    def related_models(cls):
+        return ['user', 'item']
+
     def extra_activity_data(self):
         return dict(item_id=self.item_id)
 

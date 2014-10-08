@@ -1,6 +1,5 @@
 from core import forms
 from core.models import Item
-from core.models import Pin
 from django.contrib.auth import authenticate, get_user_model, \
     login as auth_login
 from django.contrib.auth.decorators import login_required
