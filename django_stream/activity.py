@@ -3,6 +3,10 @@ from django.utils.timezone import make_naive
 import pytz
 
 
+def model_content_type(cls):
+    return '%s.%s' % (cls._meta.app_label, cls._meta.object_name)
+
+
 class Activity(object):
     
     @property
@@ -14,7 +18,7 @@ class Activity(object):
         '''
         the content_type reference for this activity model
         '''
-        return '%s.%s' % (cls._meta.app_label, cls._meta.object_name)
+        return model_content_type(cls)
 
     @property
     def related_models(self):
@@ -33,9 +37,21 @@ class Activity(object):
         pass
 
     @property
+    def actor_attr(self):
+        '''
+        Returns the model instance field that references the activity actor
+        '''
+        return self.user
+
+    @property
     def actor_id(self):
-        return self.user_id
-    
+        return self.actor_attr.pk
+
+    @property
+    def actor(self):
+        actor_cls = self.actor_attr.__class__
+        return '%s:%s' % (model_content_type(actor_cls), self.actor_id)
+
     @property
     def verb(self):
         model_name = slugify(self.__class__.__name__)
@@ -43,8 +59,7 @@ class Activity(object):
     
     @property
     def object(self):
-        foreign_id = '%s:%s' % (self.__class__.content_type(), self.pk)
-        return foreign_id
+        return '%s:%s' % (self.__class__.content_type(), self.pk)
 
     @property
     def foreign_id(self):
@@ -68,7 +83,7 @@ class Activity(object):
             extra_data['to'] = to
         
         activity = dict(
-            actor=self.actor_id,
+            actor=self.actor,
             verb=self.verb,
             object=self.object,
             foreign_id=self.foreign_id,
