@@ -8,7 +8,7 @@
 <div id="wrapper">
     <div class="container-pins">
         {% for activity in feed_pins %}
-            {% with activity.pin as pin %}
+            {% with activity.object as pin %}
                 {% include "core/_pin.html" with item=pin %}
             {% endwith %}
         {% endfor %}

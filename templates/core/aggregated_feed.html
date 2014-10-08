@@ -24,7 +24,7 @@
                     </div>
                 </div>
                 {% for activity in aggregated_activity.activities|slice:":5" %}
-                    {% with activity.pin as pin %}
+                    {% with activity.object as pin %}
                     <article class="pin">
                         <figure>
                             <div class="pin-image-holder">
