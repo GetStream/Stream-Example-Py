@@ -9,6 +9,7 @@ import operator
 
 #TODO: make this configurable via Django Settings
 DEFAULT_PERSONAL_FEED = 'user'
+DEFAULT_NOTIFICATION_FEED = 'notification'
 DEFAULT_USER_FEEDS = {
     'flat':'flat',
     'aggregated':'aggregated'
@@ -25,6 +26,7 @@ class FeedManager(object):
     def __init__(self):
         self.content_type_models = {}
         self.personal_feed = DEFAULT_PERSONAL_FEED
+        self.notification_feed = DEFAULT_NOTIFICATION_FEED
         self.user_feeds = DEFAULT_USER_FEEDS
 
     def get_personal_feed(self, user_id, feed_type=None):
@@ -32,6 +34,9 @@ class FeedManager(object):
             feed_type = self.personal_feed
         feed = stream_client.feed('%s:%s' % (feed_type, user_id))
         return feed
+
+    def get_notification_feed(self, user_id):
+        return stream_client.feed('%s:%s' % (self.notification_feed, user_id))
 
     def get_actor_feed(self, instance=None):
         if instance.author_feed is not None:
@@ -90,7 +95,10 @@ class FeedManager(object):
         objects = defaultdict(list)
         for content_type, ids in references.items():
             model = get_model(*content_type.split('.'))
-            objects[content_type] = model.objects.in_bulk(set(ids))
+            qs = model.objects
+            if hasattr(model, 'related_models') and model.related_models() is not None:
+                qs = qs.select_related(*model.related_models())
+            objects[content_type] = qs.in_bulk(set(ids))
         return objects
 
     def _inject_objects(self, activities, objects, fields):
