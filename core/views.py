@@ -37,7 +37,7 @@ def feed(request):
     if request.REQUEST.get('delete'):
         feed.delete()
     activities = feed.get(limit=25)['results']
-    context['feed_pins'] = feed_manager.enrich_activities(activities)
+    context['activities'] = feed_manager.enrich_activities(activities)
     response = render_to_response('core/feed.html', context)
     return response
 
@@ -52,7 +52,7 @@ def aggregated_feed(request):
     if request.REQUEST.get('delete'):
         feed.delete()
     activities = feed.get(limit=25)['results']
-    context['feed_pins'] = feed_manager.enrich_aggregated_activities(activities)
+    context['activities'] = feed_manager.enrich_aggregated_activities(activities)
     response = render_to_response('core/aggregated_feed.html', context)
     return response
 
@@ -68,7 +68,7 @@ def profile(request, username):
     activities = feed.get(limit=25)['results']
     context = RequestContext(request)
     context['profile_user'] = profile_user
-    context['profile_pins'] = feed_manager.enrich_activities(activities)
+    context['activities'] = feed_manager.enrich_activities(activities)
     response = render_to_response('core/profile.html', context)
     return response
 

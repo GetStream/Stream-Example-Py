@@ -1,4 +1,5 @@
 {% extends 'core/_base.html' %}
+{% load activity_tags %}
 
 {% block nav %}
     {% include "core/_nav.html" with location='profile' %}
@@ -18,10 +19,8 @@
         </div>
         <div class="col-lg-8">
             <div class="container-pins profile">
-                {% for activity in profile_pins %}
-                    {% with activity.object as pin %}
-                        {% include "core/_pin.html" with item=pin %}
-                    {% endwith %}
+                {% for activity in activities %}
+                    {% render_activity activity %}
                 {% endfor %}
             </div>
         </div>

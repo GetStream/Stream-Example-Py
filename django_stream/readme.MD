@@ -176,10 +176,16 @@ You can render activities using the include template tag ``` {% render_activity 
 
 ```
 
-render_activity template tag will render the template activity/%(verb)s.html with the activity as context
+render_activity template tag will render the template activity/[aggregated]/%(verb)s.html with the activity as context
 
-for example activity/tweet.html:
+for example activity/tweet.html will be used to render an normal activity with verb tweet
 
 ```
 {{ activity.actor.username }} said "{{ activity.object.body }} {{ activity.created_at|timesince }} ago"
+```
+
+and activity/aggregated/like.html for an aggregated activity with verb like
+
+```
+{{ activity.actor_count }} user{{ activity.actor_count|pluralize }} liked {% render_activity activity.activities.0 %}
 ```

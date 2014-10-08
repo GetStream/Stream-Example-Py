@@ -1,4 +1,5 @@
 {% extends 'core/_base.html' %}
+{% load activity_tags %}
 
 {% block nav %}
     {% include "core/_nav.html" with location='feed' %}
@@ -7,10 +8,8 @@
 {% block content %}
 <div id="wrapper">
     <div class="container-pins">
-        {% for activity in feed_pins %}
-            {% with activity.object as pin %}
-                {% include "core/_pin.html" with item=pin %}
-            {% endwith %}
+        {% for activity in activities %}
+            {% render_activity activity %}
         {% endfor %}
     </div>
 </div>
