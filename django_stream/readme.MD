@@ -3,6 +3,7 @@
 
 This package helps you integrate your Django projects with GetStream.io
 
+You can check out our example app built using this library on [https://exampledjango.getstream.io](https://exampledjango.getstream.io) the code of the example app is available on Github [https://github.com/GetStream/Stream-Example-Py](https://github.com/GetStream/Stream-Example-Py)
 
 ###Features
 Settings integration for client keys  
