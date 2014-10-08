@@ -91,3 +91,7 @@ class Activity(object):
             **extra_data
         )
         return activity
+
+    @property
+    def template(self):
+        return "activity/%s.html" % self.verb

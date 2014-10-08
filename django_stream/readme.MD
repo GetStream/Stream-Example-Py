@@ -164,3 +164,22 @@ class Tweet(models.Model, Activity):
 ```
 
 ###Templating
+
+You can render activities using the include template tag ``` {% render_activity activity %} ```
+
+```
+{% load stream_django %}
+
+{% for activity in activities %}
+    {% render_activity activity %}
+{% endfor %}
+
+```
+
+render_activity template tag will render the template activity/%(verb)s.html with the activity as context
+
+for example activity/tweet.html:
+
+```
+{{ activity.actor.username }} said "{{ activity.object.body }} {{ activity.created_at|timesince }} ago"
+```
