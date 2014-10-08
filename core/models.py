@@ -37,11 +37,12 @@ class Pin(Activity, BaseModel):
     def related_models(cls):
         return ['user', 'item']
 
+    @property
     def extra_activity_data(self):
         return dict(item_id=self.item_id)
 
 
-class Follow(BaseModel):
+class Follow(Activity, BaseModel):
     '''
     A simple table mapping who a user is following.
     For example, if user is Kyle and Kyle is following Alex,
@@ -51,3 +52,7 @@ class Follow(BaseModel):
         settings.AUTH_USER_MODEL, related_name='following_set')
     target = models.ForeignKey(
         settings.AUTH_USER_MODEL, related_name='follower_set')
+
+    @classmethod
+    def related_models(cls):
+        return ['user', 'target']

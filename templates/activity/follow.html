@@ -1,0 +1,13 @@
+<article class="pin">
+    <figure>
+        <div class="pin-image-holder">
+            <h2>Started following</h2>
+            {% with activity.object.target as profile_user %}
+                {% include 'core/_profile.html' with show_feed=False hide_description=True %}
+            {% endwith %}
+        </div>
+    </figure>
+    <footer class="pin-attribution">
+        {{ activity.object.created_at|timesince }} ago
+    </footer>
+</article>

@@ -74,7 +74,7 @@ class Activity(object):
         pass
     
     def create_activity(self):
-        extra_data = self.extra_activity_data()
+        extra_data = self.extra_activity_data
         if not extra_data:
             extra_data = {}
         

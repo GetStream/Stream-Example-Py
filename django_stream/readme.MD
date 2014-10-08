@@ -1,16 +1,15 @@
 
 ###Stream_django
 
-This package helps you integrate your Django projects with GetStream.io
+This package helps you create user feeds and news feeds with Django and GetStream.io.
 
 You can check out our example app built using this library on [https://exampledjango.getstream.io](https://exampledjango.getstream.io) the code of the example app is available on Github [https://github.com/GetStream/Stream-Example-Py](https://github.com/GetStream/Stream-Example-Py)
 
 ###Features
-Settings integration for client keys  
+Settings integration    
 Model integration  
 Feed manager  
-Templating  
-Notification feed  
+Templating    
 
 ###Installation
 
@@ -74,6 +73,7 @@ NOTE: you should only return data that json.dumps can handle (datetime instances
 ```
 class Tweet(models.Model, Activity):
 
+    @property
     def extra_activity_data(self):
         return {'is_retweet': self.is_retweet }
 

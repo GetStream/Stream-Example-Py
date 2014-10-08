@@ -68,8 +68,17 @@ def profile(request, username):
     activities = feed.get(limit=25)['results']
     context = RequestContext(request)
     context['profile_user'] = profile_user
+    context['followed'] = profile_user.following_set.filter(user=request.user)
     context['activities'] = feed_manager.enrich_activities(activities)
     response = render_to_response('core/profile.html', context)
+    return response
+
+
+@login_required
+def people(request):
+    context = RequestContext(request)
+    context['people'] = get_user_model().objects.all()[:25]
+    response = render_to_response('core/people.html', context)
     return response
 
 
