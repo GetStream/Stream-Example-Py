@@ -7,6 +7,7 @@ This package helps you integrate your Django projects with GetStream.io
 ###Features
 Settings integration for client keys  
 Model integration  
+Feed manager  
 Activity template helpers  
 Notification feed integration  
 
@@ -48,7 +49,7 @@ The Activity class comes with a built-in capability of present an instance as an
 **actor** is a reference to the user attribute of the instance  
 **verb** is a nice string representation of the class name
 
-While you probably won't need to change the object field; you will probably need to adjust the other two fields to fit with your data.
+While you probably won't never need to change the object field; you might need to adjust the other two fields to fit your data.
 
 ```
 class Tweet(models.Model, Activity):
@@ -64,9 +65,14 @@ class Tweet(models.Model, Activity):
 
 ```
 
+###Feed manager
 
-The create and delete for these models will automatically hookup to the getstream.io API and
-setup your newsfeeds.
+The package comes with a feed manager class that helps you retrieving feeds' activities; follow/unfollow feeds
+
+
+####Activity enrichment
+
+Another useful feature of this module is that you don't have to fetch all the data referenced in feeds yourself, instead you can leverage the built-in enrichment functions from the feed manager
 
 ###Custom activities
 
