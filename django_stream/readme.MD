@@ -1,35 +1,70 @@
 
-###What this app does
+###Stream_django
 
-This package makes it extremely easy to show a newsfeed to your user.
-The screenshots clarify what we mean.
+This package helps you integrate your Django projects with GetStream.io
 
-It's based on the open source Stream Framework and connects to the hosted getstream.io platform.
+
+###Features
+Settings integration for client keys  
+Model integration  
+Activity template helpers  
+Notification feed integration  
 
 ###Installation
 
-pip install django_stream
+Install django_stream package with pip:
 
-add django_stream to your installed apps
+```pip install django_stream```
 
-python manage.py migrate
+add django_stream to your ```INSTALLED_APPS```
 
-login with github at getstream.io and setup
-STREAM_API_KEY and STREAM_API_SECRET
+```
+INSTALLED_APPS = [
+    ...
+    'django_stream'
+]
+```
 
-###Usage
+Login to getstream.io and add
+```STREAM_API_KEY``` and ```STREAM_API_SECRET``` to your Django settings module (you can find them in the dashboard).
 
-Subclass Activity for activities you want to land in the feed
+###Model integration
 
-class Like(Activity):
-    pass
-    
-class Comment(Activity):
-    pass
-    
-class Pin(Activity):
-	pass
-    
+You can have django_stream take care automatically of adding/removing model instances to user feeds; to do that let the model classes that need to be stored in feeds inherit from ```django_stream.activity.Activity```
+
+```
+class Tweet(models.Model, Activity):
+    ...
+```
+
+From now on every time a Tweet is created; an activity referencing it will be added to its user' feed; feeds that follow that user will also automatically get the new tweet automatically in their feeds.
+
+####Activity fields
+
+Models are stored in feeds as activities; an activity is composed by the following fields: **actor**, **verb**, **object** and by other optional extra fields.  
+The Activity class comes with a built-in capability of present an instance as an activity.
+
+**object** is a reference to the model instance  
+**actor** is a reference to the user attribute of the instance  
+**verb** is a nice string representation of the class name
+
+While you probably won't need to change the object field; you will probably need to adjust the other two fields to fit with your data.
+
+```
+class Tweet(models.Model, Activity):
+    author = models.ForeignKey('core.User')
+
+    @property
+    def verb(self):
+        return 'shout'
+
+    @property
+    def actor_attr(self):
+        return self.author
+
+```
+
+
 The create and delete for these models will automatically hookup to the getstream.io API and
 setup your newsfeeds.
 
