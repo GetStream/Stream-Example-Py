@@ -7,11 +7,10 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from stream_django.feed_manager import feed_manager
-from stream_django.enrich import Enrich
+from core.enrich import Enrich
+from core.enrich import did_i_pin_items
+from core.enrich import do_i_follow_users
 import json
-
-
-enricher = Enrich()
 
 
 def trending(request):
@@ -26,6 +25,7 @@ def trending(request):
     # show a few items
     context = RequestContext(request)
     popular = Item.objects.all()[:50]
+    did_i_pin_items(request.user, popular)
     context['popular'] = popular
     response = render_to_response('core/trending.html', context)
     return response
@@ -36,6 +36,7 @@ def feed(request):
     '''
     Items pinned by the people you follow
     '''
+    enricher = Enrich(request.user)
     context = RequestContext(request)
     feed = feed_manager.get_feed('flat', request.user.id)
     if request.REQUEST.get('delete'):
@@ -51,6 +52,7 @@ def aggregated_feed(request):
     '''
     Items pinned by the people you follow
     '''
+    enricher = Enrich(request.user)
     context = RequestContext(request)
     feed = feed_manager.get_feed('aggregated', request.user.id)
     if request.REQUEST.get('delete'):
@@ -65,13 +67,14 @@ def profile(request, username):
     '''
     Shows the users profile
     '''
+    enricher = Enrich(request.user)
     profile_user = get_user_model().objects.get(username=username)
     feed = feed_manager.get_personal_feed(profile_user.id)
     if request.REQUEST.get('delete'):
         feed.delete()
     activities = feed.get(limit=25)['results']
     context = RequestContext(request)
-    profile_user.followed = bool(profile_user.follower_set.filter(user=request.user))
+    do_i_follow_users(request.user, [profile_user])
     context['profile_user'] = profile_user
     context['activities'] = enricher.enrich_activities(activities)
     response = render_to_response('core/profile.html', context)
@@ -82,10 +85,7 @@ def profile(request, username):
 def people(request):
     context = RequestContext(request)
     people = get_user_model().objects.all()[:25]
-    people_ids = [p.id for p in people]
-    followed = [f.target_id for f in request.user.following_set.filter(id__in=people_ids)]
-    for user in people:
-        user.followed = user.id in followed
+    do_i_follow_users(request.user, people)
     context['people'] = people
     response = render_to_response('core/people.html', context)
     return response

@@ -1,15 +1,11 @@
 <article class="pin">
     <figure>
         <div class="pin-image-holder">
-            {% if item.image %}
-                <img class="pin-image" src="{{ MEDIA_URL }}{{ item.image }}">
-            {% elif item.item %}
-                <img class="pin-image" src="{{ MEDIA_URL }}{{ item.item.image }}">
-            {% endif %}
+            <img class="pin-image" src="{{ MEDIA_URL }}{{ pin.item.image }}">
         </div>
-        {% if item.message %}
+        {% if pin.message %}
             <figcaption class="pin-caption">
-                {{ item.message }}
+                {{ pin.message }}
             </figcaption>
         {% endif %}
     </figure>
@@ -17,9 +13,15 @@
         <textarea class="form-control" name="message" placeholder="Comment..."></textarea>
         {% csrf_token %}
         <div class="media">
+        {% if pin.item.pinned %}
+            <div class="pull-left">
+                <input class="btn btn-danger btn-sm" type="submit" value="Unpin">
+            </div>
+        {% else %}
             <div class="pull-left">
                 <input class="btn btn-primary btn-sm" type="submit" value="Pin">
             </div>
+        {% endif %}
             <div class="media-body">
                 <div class="input-group input-group-sm">
                     <span class="input-group-addon text-muted">in</span>
@@ -27,11 +29,11 @@
                 </div>
             </div>
         </div>
-        <input name="influencer" type="hidden" value="{{ item.user_id }}">
-        <input name="item" type="hidden" value="{{ item.id }}">
+        <input name="influencer" type="hidden" value="{{ pin.item.user_id }}">
+        <input name="item" type="hidden" value="{{ pin.item.id }}">
         <input type="hidden" name="next" value="{{ request.get_full_path }}">
     </form>
     <footer class="pin-attribution">
-        by <a href="{% url 'profile' item.user.username %}">{{ item.user }}</a>{% if item.created_at %} {{ item.created_at|timesince }} ago {% endif %}
+        by <a href="{% url 'profile' pin.item.user.username %}">{{ pin.item.user }}</a>{% if pin.item.created_at %} {{ pin.item.created_at|timesince }} ago {% endif %}
     </footer>
 </article>
