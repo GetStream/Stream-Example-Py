@@ -14,7 +14,7 @@ def did_i_pin(user, pins):
 
 
 def do_i_follow_users(user, users):
-    followed_user_ids = Follow.objects.filter(user=user, target__in=users).values_list('id', flat=True)
+    followed_user_ids = Follow.objects.filter(user=user, target__in=users).values_list('target_id', flat=True)
     for u in users:
         u.followed = u.id in followed_user_ids
 
