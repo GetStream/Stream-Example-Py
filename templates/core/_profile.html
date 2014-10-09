@@ -9,13 +9,14 @@
         {% endif %}
         <form method="POST" action="{% url 'follow' %}">
             {% csrf_token %}
-            {% if followed %}
+            {% if profile_user.followed %}
                 <input name="remove" type="hidden" value="1">
                 <input class="btn btn-default btn-danger" type="submit" value="Unfollow">
             {% else %}
                 <input class="btn btn-default" type="submit" value="Follow">
             {% endif %}
             <input name="target" type="hidden" value="{{ profile_user.id }}">
+            <input name="next" type="hidden" value="{{ request.path }}">
         </form>
     </div>
     {% if show_feed %}

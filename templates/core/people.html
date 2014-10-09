@@ -1,0 +1,11 @@
+{% extends 'core/_base.html' %}
+
+{% block nav %}
+    {% include "core/_nav.html" with location='people' %}
+{% endblock nav %}
+
+{% block content %}
+    {% for profile_user in people %}
+        {% include 'core/_profile.html' with show_feed=False %}
+    {% endfor %}
+{% endblock content %}

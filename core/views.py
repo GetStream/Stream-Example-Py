@@ -71,8 +71,8 @@ def profile(request, username):
         feed.delete()
     activities = feed.get(limit=25)['results']
     context = RequestContext(request)
+    profile_user.followed = bool(profile_user.follower_set.filter(user=request.user))
     context['profile_user'] = profile_user
-    context['followed'] = profile_user.following_set.filter(user=request.user)
     context['activities'] = enricher.enrich_activities(activities)
     response = render_to_response('core/profile.html', context)
     return response
@@ -81,7 +81,12 @@ def profile(request, username):
 @login_required
 def people(request):
     context = RequestContext(request)
-    context['people'] = get_user_model().objects.all()[:25]
+    people = get_user_model().objects.all()[:25]
+    people_ids = [p.id for p in people]
+    followed = [f.target_id for f in request.user.following_set.filter(id__in=people_ids)]
+    for user in people:
+        user.followed = user.id in followed
+    context['people'] = people
     response = render_to_response('core/people.html', context)
     return response
 
@@ -141,4 +146,8 @@ def follow(request):
             output['errors'] = dict(form.errors.items())
     else:
         form = forms.FollowForm()
-    return HttpResponse(json.dumps(output), content_type='application/json')
+
+    if request.is_ajax():
+        return HttpResponse(json.dumps(output), content_type='application/json')
+    else:
+        return HttpResponseRedirect(request.POST.get('next', '/'))

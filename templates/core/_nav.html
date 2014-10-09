@@ -19,10 +19,13 @@
                 <li{% if location == 'aggregated_feed' %} class="active"{% endif %}>
                     <a href="{% url 'aggregated_feed' %}"><i class="glyphicon glyphicon-th-list"></i> Aggregated Feed</a>
                 </li>
+                <li{% if location == 'people' %} class="active"{% endif %}>
+                    <a href="{% url 'people' %}"><i class="glyphicon glyphicon-user"></i> People</a>
+                </li>
             {% if user.is_authenticated %}
                 <li class="dropdown{% if location == 'profile' %} active{% endif %}">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="glyphicon glyphicon-user"></i>  {{ user.username }}<b class="caret"></b>
+                        <i class="glyphicon"></i>  {{ user.username }}<b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="{% url 'profile' user.username %}">My Profile</a></li>
