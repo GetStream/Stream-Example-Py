@@ -18,17 +18,9 @@ class Item(BaseModel):
     pin_count = models.IntegerField(default=0)
 
 
-class Board(BaseModel):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    name = models.CharField(max_length=255)
-    description = models.TextField(blank=True, null=True)
-    slug = models.SlugField()
-
-
 class Pin(Activity, BaseModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     item = models.ForeignKey(Item)
-    board = models.ForeignKey(Board)
     influencer = models.ForeignKey(
         settings.AUTH_USER_MODEL, related_name='influenced_pins')
     message = models.TextField(blank=True, null=True)

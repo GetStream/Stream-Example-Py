@@ -98,9 +98,7 @@ def pin(request):
     '''
     output = {}
     if request.method == "POST":
-        data = request.POST.copy()
-        data['user'] = request.user.id
-        form = forms.PinForm(data=data)
+        form = forms.PinForm(user=request.user, data=request.POST)
 
         if form.is_valid():
             pin = form.save()
@@ -110,9 +108,8 @@ def pin(request):
                 return redirect_to_next(request)
         else:
             output['errors'] = dict(form.errors.items())
-
     else:
-        form = forms.PinForm()
+        form = forms.PinForm(user=request.user)
 
     return render_output(output)
 
@@ -134,9 +131,7 @@ def follow(request):
     '''
     output = {}
     if request.method == "POST":
-        data = request.POST.copy()
-        data['user'] = request.user.id
-        form = forms.FollowForm(data=data)
+        form = forms.FollowForm(user=request.user, data=request.POST)
 
         if form.is_valid():
             follow = form.save()
@@ -145,7 +140,7 @@ def follow(request):
         else:
             output['errors'] = dict(form.errors.items())
     else:
-        form = forms.FollowForm()
+        form = forms.FollowForm(user=request.user)
 
     if request.is_ajax():
         return HttpResponse(json.dumps(output), content_type='application/json')
