@@ -47,5 +47,5 @@ class FollowForm(forms.Form):
             return
 
         follow = Follow.objects.create(user=self.user, target_id=target)
-        feed_manager.follow_user(self.user_id, target)
+        feed_manager.follow_user(self.user.id, target)
         return follow
