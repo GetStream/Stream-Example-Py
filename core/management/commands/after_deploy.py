@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
-from django_stream.feed_manager import feed_manager
-from django_stream import Follow
+from stream_django.feed_manager import feed_manager
+from stream_django import Follow
 from django.contrib.auth import get_user_model
 
 

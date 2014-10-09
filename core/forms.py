@@ -1,4 +1,4 @@
-from django_stream.feed_manager import feed_manager
+from stream_django.feed_manager import feed_manager
 from core.models import Board, Pin
 from django import forms
 from django.template.defaultfilters import slugify

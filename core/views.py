@@ -6,8 +6,12 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
-from django_stream.feed_manager import feed_manager
+from stream_django.feed_manager import feed_manager
+from stream_django.enrich import Enrich
 import json
+
+
+enricher = Enrich()
 
 
 def trending(request):
@@ -37,7 +41,7 @@ def feed(request):
     if request.REQUEST.get('delete'):
         feed.delete()
     activities = feed.get(limit=25)['results']
-    context['activities'] = feed_manager.enrich_activities(activities)
+    context['activities'] = enricher.enrich_activities(activities)
     response = render_to_response('core/feed.html', context)
     return response
 
@@ -52,7 +56,7 @@ def aggregated_feed(request):
     if request.REQUEST.get('delete'):
         feed.delete()
     activities = feed.get(limit=25)['results']
-    context['activities'] = feed_manager.enrich_aggregated_activities(activities)
+    context['activities'] = enricher.enrich_aggregated_activities(activities)
     response = render_to_response('core/aggregated_feed.html', context)
     return response
 
@@ -69,7 +73,7 @@ def profile(request, username):
     context = RequestContext(request)
     context['profile_user'] = profile_user
     context['followed'] = profile_user.following_set.filter(user=request.user)
-    context['activities'] = feed_manager.enrich_activities(activities)
+    context['activities'] = enricher.enrich_activities(activities)
     response = render_to_response('core/profile.html', context)
     return response
 

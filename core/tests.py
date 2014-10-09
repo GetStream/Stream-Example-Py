@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
 from django.test import Client
 from django.test.testcases import TestCase
-from django_stream.models import Follow
+from stream_django.models import Follow
 from mock import Mock, patch
 
 

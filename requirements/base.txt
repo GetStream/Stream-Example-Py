@@ -1,5 +1,5 @@
 django==1.5.5
-stream-python
+stream-django
 south
 pillow
 django_compressor

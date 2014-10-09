@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.db import models
-from django_stream.activity import Activity
+from stream_django.activity import Activity
 
 
 class BaseModel(models.Model):
