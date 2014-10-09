@@ -25,6 +25,7 @@ urlpatterns = patterns('',
                            'core.views.people', name='people'),
                        # the admin
                        url(r'^admin/', include(admin.site.urls)),
+                       url(r'^accounts/', include('allauth.urls')),
                        url(r'^auth/', include('django.contrib.auth.urls')),
                        )
 

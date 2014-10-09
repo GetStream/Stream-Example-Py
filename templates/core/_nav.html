@@ -29,7 +29,14 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="{% url 'profile' user.username %}">My Profile</a></li>
+                        <li><a href="{% url 'account_logout' %}">Logout</a></li>
                     </ul>
+                </li>
+            {% else %}
+                <li>
+                    <a href="/accounts/github/login/?process=login">
+                        <i class="icon icon-github"></i> Sign in with GitHub
+                    </a>
                 </li>
             {% endif %}
             </ul>

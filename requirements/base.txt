@@ -4,3 +4,4 @@ south
 pillow
 django_compressor
 pytz
+django-allauth==0.18.0

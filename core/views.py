@@ -3,6 +3,7 @@ from core.models import Item
 from django.contrib.auth import authenticate, get_user_model, \
     login as auth_login
 from django.contrib.auth.decorators import login_required
+from django.conf import settings
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
@@ -17,7 +18,7 @@ def trending(request):
     '''
     The most popular items
     '''
-    if not request.user.is_authenticated():
+    if not request.user.is_authenticated() and not settings.USE_AUTH:
         # hack to log you in automatically for the demo app
         admin_user = authenticate(username='admin', password='admin')
         auth_login(request, admin_user)
@@ -25,7 +26,8 @@ def trending(request):
     # show a few items
     context = RequestContext(request)
     popular = Item.objects.all()[:50]
-    did_i_pin_items(request.user, popular)
+    if request.user.is_authenticated():
+        did_i_pin_items(request.user, popular)
     context['popular'] = popular
     response = render_to_response('core/trending.html', context)
     return response
@@ -69,7 +71,7 @@ def profile(request, username):
     '''
     enricher = Enrich(request.user)
     profile_user = get_user_model().objects.get(username=username)
-    feed = feed_manager.get_personal_feed(profile_user.id)
+    feed = feed_manager.get_user_feed(profile_user.id)
     if request.REQUEST.get('delete'):
         feed.delete()
     activities = feed.get(limit=25)['results']
@@ -108,9 +110,6 @@ def pin(request):
                 return redirect_to_next(request)
         else:
             output['errors'] = dict(form.errors.items())
-    else:
-        form = forms.PinForm(user=request.user)
-
     return render_output(output)
 
 
@@ -137,12 +136,8 @@ def follow(request):
             follow = form.save()
             if follow:
                 output['follow'] = dict(id=follow.id)
+            if not request.GET.get('ajax'):
+                return redirect_to_next(request)
         else:
             output['errors'] = dict(form.errors.items())
-    else:
-        form = forms.FollowForm(user=request.user)
-
-    if request.is_ajax():
-        return HttpResponse(json.dumps(output), content_type='application/json')
-    else:
-        return HttpResponseRedirect(request.POST.get('next', '/'))
+    return HttpResponse(json.dumps(output), content_type='application/json')

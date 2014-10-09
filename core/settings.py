@@ -44,6 +44,9 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.tz',
     'django.core.context_processors.request',
     'django.contrib.messages.context_processors.messages',
+    # allauth specific context processors
+    "allauth.account.context_processors.account",
+    "allauth.socialaccount.context_processors.socialaccount",
 )
 
 # SECURITY WARNING: keep the secret key used in production secret!
@@ -64,10 +67,15 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_stream',
+    'django.contrib.sites',
+    'stream_django',
     'core',
     'south',
     'compressor',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.github',
 )
 
 STATICFILES_FINDERS = (
@@ -132,7 +140,7 @@ LOGGING = {
     },
     'handlers': {
         'console': {
-            'level': 'WARNING',
+            'level': 'DEBUG',
             'class': 'logging.StreamHandler',
             'formatter': 'simple'
         },
@@ -143,8 +151,22 @@ LOGGING = {
             'level': 'WARNING',
             'filters': []
         },
+        # 'django.db.backends': {
+        #     'level': 'DEBUG',
+        #     'handlers': ['console'],
+        # },
     }
 }
+
+USE_AUTH = bool(os.environ.get('USE_AUTH'))
+ACCOUNT_SIGNUP_PASSWORD_VERIFICATION = False
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = "none"
+SITE_ID = 1
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+ACCOUNT_LOGOUT_ON_GET = True
 
 # if you run on Heroku you don't need to set this
 STREAM_API_KEY = ''
