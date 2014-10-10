@@ -40,7 +40,7 @@ def feed(request):
     '''
     enricher = Enrich(request.user)
     context = RequestContext(request)
-    feed = feed_manager.get_feed('flat', request.user.id)
+    feed = feed_manager.get_news_feeds(request.user.id)['flat']
     if request.REQUEST.get('delete'):
         feed.delete()
     activities = feed.get(limit=25)['results']
@@ -56,7 +56,7 @@ def aggregated_feed(request):
     '''
     enricher = Enrich(request.user)
     context = RequestContext(request)
-    feed = feed_manager.get_feed('aggregated', request.user.id)
+    feed = feed_manager.get_news_feeds(request.user.id)['aggregated']
     if request.REQUEST.get('delete'):
         feed.delete()
     activities = feed.get(limit=25)['results']
