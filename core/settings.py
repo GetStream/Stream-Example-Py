@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+import dj_database_url
 import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -98,14 +99,7 @@ ROOT_URLCONF = 'core.urls'
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
-
-# Database
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+DATABASES = {'default':dj_database_url.config()}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
@@ -163,7 +157,7 @@ ACCOUNT_SIGNUP_PASSWORD_VERIFICATION = False
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = "none"
-SITE_ID = 1
+SITE_ID = int(os.environ.get('SITE_ID', 1))
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 ACCOUNT_LOGOUT_ON_GET = True
