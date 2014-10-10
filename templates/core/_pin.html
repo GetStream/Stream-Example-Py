@@ -3,8 +3,8 @@
 <article class="pin">
     <figure>
         <div class="pin-image-holder">
-            {% thumbnail item.image "216x" crop="center" as im %}
-                <img class="pin-image" src="{{ MEDIA_URL }}{{ pin.item.image }}">
+            {% thumbnail item.image "216" crop="center" as im %}
+                <img class="pin-image" src="{{ im.url }}">
             {% endthumbnail %}
         </div>
         {% if pin.message %}

@@ -1,7 +1,11 @@
+{% load thumbnail %}
+
 <article class="pin">
     <figure>
         <div class="pin-image-holder">
-            <img class="pin-image" src="{{ MEDIA_URL }}{{ item.image }}">
+            {% thumbnail item.image "216" crop="center" as im %}
+                <img class="pin-image" src="{{ im.url }}">
+            {% endthumbnail %}
         </div>
     </figure>
     <form class="pin-bottom" method="POST" action="{% url 'pin' %}">
