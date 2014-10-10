@@ -4,7 +4,7 @@ This example Django app shows you how you can use [GetStream.io](https://getstre
 
 ### Demo
 
-You can try the demo here https://exampledjango.getstream.io.
+You can [try the demo here](http://cryptic-waters-4962.herokuapp.com/).
 Alternatively you can deploy your own copy of the demo via Heroku.
 
 ### Heroku
@@ -43,7 +43,7 @@ Now when users will add a pin it will automatically show up on the user feed. Ho
 to know who follows who. 
 
 ```
-feed_manager.follow_user(self.user.id, target)
+feed_manager.follow_user(user_id, target_id)
 ```
 
 This is all that's needed to setup the newsfeed. To retrieve the newsfeed we use the following code
@@ -56,7 +56,7 @@ def feed(request):
     '''
     enricher = Enrich(request.user)
     context = RequestContext(request)
-    feed = feed_manager.get_feed('flat', request.user.id)
+    feed = feed_manager.get_news_feeds(request.user.id)['flat']
     if request.REQUEST.get('delete'):
         feed.delete()
     activities = feed.get(limit=25)['results']
@@ -75,4 +75,4 @@ The last bit of work is making sure the templates render nicely.
 
 This will render the templates in
 
-https://github.com/GetStream/Stream-Example-Py/tree/django_stream/templates/activity
+https://github.com/GetStream/Stream-Example-Py/tree/master/templates/activity
