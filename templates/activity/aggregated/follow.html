@@ -9,26 +9,27 @@
                     <i class="glyphicon glyphicon-time"></i> {{ activity.updated_at|timesince }} ago
                 </div>
                 <div class="aggregation-title">
-                    <span>{{ activity.activities|length }} pin{{ activity.activities|length|pluralize }} </span>
+                    <span>{{ activity.activities|length }} follow{{ activity.activities|length|pluralize }} </span>
                 </div>
             </div>
         </div>
-        <h2>Started following</h2>
-        {% for activity in activity.activities|slice:":5" %}
-            {% with activity.object as pin %}
-                <article class="pin">
-                    <figure>
-                        <div class="pin-image-holder">
-                            {% with activity.object.target as profile_user %}
-                                {% include 'core/_profile.html' with show_feed=False hide_description=True %}
-                            {% endwith %}
-                        </div>
-                    </figure>
-                    <footer class="pin-attribution">
-                        {{ activity.object.created_at|timesince }} ago
-                    </footer>
-                </article>
-            {% endwith %}
+        {% for activity in activity.activities|slice:":3" %}
+            <article class="pin">
+                <h2>{{ activity.object.user }} started following</h2>
+                <figure>
+                    <div class="pin-image-holder">
+                        {% with activity.object.target as profile_user %}
+                            {% include 'core/_profile.html' with show_feed=False hide_description=True %}
+                        {% endwith %}
+                    </div>
+                </figure>
+                <footer class="pin-attribution">
+                    {{ activity.object.created_at|timesince }} ago
+                </footer>
+            </article>
         {% endfor %}
+        {% if activity.activities|length > 3 %}
+            and {{ activity.activities|slice:"3:"|length }} more
+        {% endif %}
     </div>
 </div>
