@@ -1,7 +1,6 @@
 from core.models import Follow
 from core.models import Pin
 from django import forms
-from stream_django.feed_manager import feed_manager
 
 
 class PinForm(forms.Form):
@@ -22,9 +21,8 @@ class PinForm(forms.Form):
                 user=self.user, item=item)
             for pin in pins:
                 pin.delete()
-            return
-        pin = Pin.objects.create(user=self.user, item_id=item, influencer_id=influencer)
-        return pin
+        else:
+            pin = Pin.objects.create(user=self.user, item_id=item, influencer_id=influencer)
 
 
 class FollowForm(forms.Form):
@@ -42,10 +40,6 @@ class FollowForm(forms.Form):
         if remove:
             follows = Follow.objects.filter(user=self.user, target_id=target)
             for follow in follows:
-                feed_manager.unfollow_user(self.user.id, target)
                 follow.delete()
-            return
-
-        follow = Follow.objects.create(user=self.user, target_id=target)
-        feed_manager.follow_user(self.user.id, target)
-        return follow
+        else:
+            follow = Follow.objects.create(user=self.user, target_id=target)
