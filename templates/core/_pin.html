@@ -10,7 +10,7 @@
         {% endif %}
     </figure>
     <form class="pin-bottom" method="POST" action="{% url 'pin' %}">
-        <textarea class="form-control" name="message" placeholder="Comment..."></textarea>
+        <!-- <textarea class="form-control" name="message" placeholder="Comment..."></textarea> -->
         {% csrf_token %}
         <div class="media">
         {% if pin.item.pinned %}
