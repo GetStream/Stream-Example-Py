@@ -15,7 +15,7 @@
     "DISABLE_COLLECTSTATIC": "1"
   },
   "addons": [
-    "stream", "heroku-postgresql:hobby-dev", "memcachier"
+    "stream", "heroku-postgresql:hobby-dev", "rollbar"
   ],
   "scripts": {
     "postdeploy": "python manage.py after_deploy"
