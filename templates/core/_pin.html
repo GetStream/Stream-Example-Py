@@ -1,7 +1,11 @@
+{% load thumbnail %}
+
 <article class="pin">
     <figure>
         <div class="pin-image-holder">
-            <img class="pin-image" src="{{ MEDIA_URL }}{{ pin.item.image }}">
+            {% thumbnail item.image "216x" crop="center" as im %}
+                <img class="pin-image" src="{{ MEDIA_URL }}{{ pin.item.image }}">
+            {% endthumbnail %}
         </div>
         {% if pin.message %}
             <figcaption class="pin-caption">
