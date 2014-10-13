@@ -60,6 +60,12 @@ app.Realtime.prototype = {
     	this.element = $(elementIdentifier);
 	},
 	changed: function(data) {
-		console.log(this.feed.feed);
+		var unseen = data.unseen;
+		this.element.html(unseen);
+		if (unseen == 0) {
+			this.element.hide();
+		} else {
+			this.element.show();
+		}
 	}
 };
