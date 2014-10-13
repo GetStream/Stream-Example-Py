@@ -7,6 +7,7 @@ from stream_django.feed_manager import feed_manager
 
 class BaseModel(models.Model):
     created_at = models.DateTimeField(blank=True, null=True, auto_now_add=True)
+    deleted_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
         abstract = True
@@ -34,6 +35,14 @@ class Pin(Activity, BaseModel):
     @property
     def extra_activity_data(self):
         return dict(item_id=self.item_id)
+
+
+def soft_delete(sender, instance, **kwargs):
+    if instance.deleted_at is not None:
+        feed_manager.activity_delete(sender, instance, **kwargs)
+
+
+post_save.connect(soft_delete, sender=Pin)
 
 
 class Follow(Activity, BaseModel):

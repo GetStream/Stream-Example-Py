@@ -4,7 +4,7 @@ from core.models import Pin
 
 
 def did_i_pin_items(user, items):
-    pinned_items_ids = user.pin_set.filter(item_id__in=items).values_list('item_id', flat=True)
+    pinned_items_ids = user.pin_set.filter(item_id__in=items, deleted_at__isnull=True).values_list('item_id', flat=True)
     for item in items:
         item.pinned = item.id in pinned_items_ids
 
@@ -14,7 +14,7 @@ def did_i_pin(user, pins):
 
 
 def do_i_follow_users(user, users):
-    followed_user_ids = Follow.objects.filter(user=user, target__in=users).values_list('target_id', flat=True)
+    followed_user_ids = Follow.objects.filter(user=user, target__in=users, deleted_at__isnull=True).values_list('target_id', flat=True)
     for u in users:
         u.followed = u.id in followed_user_ids
 
