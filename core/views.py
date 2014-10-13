@@ -78,7 +78,7 @@ def notification_feed(request):
     feed = feed_manager.get_notification_feed(request.user.id)
     activities = feed.get(limit=25)['results']
     context['activities'] = enricher.enrich_aggregated_activities(activities)
-    response = render_to_response('core/aggregated_feed.html', context)
+    response = render_to_response('core/notification_feed.html', context)
     return response
 
 
