@@ -13,6 +13,8 @@ urlpatterns = patterns('',
                            'core.views.feed', name='feed'),
                        url(r'^aggregated_feed/$',
                            'core.views.aggregated_feed', name='aggregated_feed'),
+                       url(r'^notification_feed/$',
+                           'core.views.notification_feed', name='notification_feed'),
                        # a page showing the users profile
                        url(r'^profile/(?P<username>[\w_-]+)/$',
                            'core.views.profile', name='profile'),
