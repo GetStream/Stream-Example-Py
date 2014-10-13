@@ -25,6 +25,8 @@ urlpatterns = patterns('',
                            'core.views.follow', name='follow'),
                        url(r'^people/$',
                            'core.views.people', name='people'),
+                       url(r'^auto_follow/$',
+                           'core.views.auto_follow', name='auto_follow'),
                        # the admin
                        url(r'^admin/', include(admin.site.urls)),
                        url(r'^accounts/', include('allauth.urls')),

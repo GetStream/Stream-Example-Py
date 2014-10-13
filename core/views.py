@@ -1,5 +1,6 @@
 from core import forms
 from core.models import Item
+from core.models import Follow
 from django.contrib.auth import authenticate, get_user_model, \
     login as auth_login
 from django.contrib.auth.decorators import login_required
@@ -148,3 +149,13 @@ def follow(request):
         else:
             output['errors'] = dict(form.errors.items())
     return HttpResponse(json.dumps(output), content_type='application/json')
+
+
+@login_required
+def auto_follow(request):
+    '''
+    silly view that let a random user follow current user
+    '''
+    admin = get_user_model().objects.get(username='admin')
+    Follow.objects.get_or_create(user=admin, target_id=request.user)
+    return HttpResponse('{}', content_type='application/json')
