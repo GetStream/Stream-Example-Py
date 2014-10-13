@@ -7,6 +7,7 @@ from stream_django.feed_manager import feed_manager
 
 class BaseModel(models.Model):
     created_at = models.DateTimeField(blank=True, null=True, auto_now_add=True)
+    deleted_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
         abstract = True

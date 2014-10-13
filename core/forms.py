@@ -1,6 +1,7 @@
 from core.models import Follow
 from core.models import Pin
 from django import forms
+from datetime import datetime
 
 
 class PinForm(forms.Form):
@@ -39,7 +40,12 @@ class FollowForm(forms.Form):
 
         if remove:
             follows = Follow.objects.filter(user=self.user, target_id=target)
+            now = datetime.now()
             for follow in follows:
-                follow.delete()
+                follow.deleted_at = now
+                follow.save()
         else:
-            follow = Follow.objects.create(user=self.user, target_id=target)
+            follow, created = Follow.objects.get_or_create(user=self.user, target_id=target)
+            if not created:
+                follow.deleted_at = None
+                follow.save()
