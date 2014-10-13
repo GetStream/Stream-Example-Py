@@ -5,7 +5,7 @@ def user_feeds(request):
     context = {}
     if request.user.is_authenticated():
         for feed in ['user', 'flat', 'aggregated', 'notification']:
-            context[feed] = feed_manager.get_feed(request.user.id, feed)
+            context[feed + '_feed'] = feed_manager.get_feed(request.user.id, feed)
         
     return context
     

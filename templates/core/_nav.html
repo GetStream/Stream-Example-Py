@@ -22,7 +22,7 @@
                 <li{% if location == 'people' %} class="active"{% endif %}>
                     <a href="{% url 'people' %}"><i class="glyphicon glyphicon-user"></i> People</a>
                 </li>
-            {% if user.is_authenticated %}
+            {% if request.user.is_authenticated %}
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="glyphicon glyphicon-inbox"></i>  <b class="caret"></b>
