@@ -65,10 +65,12 @@
 			streamClient = stream.connect('{{ STREAM_API_KEY }}', null, {{ STREAM_SITE_ID }});
 			
 			{% if request.user.is_authenticated %}
-				flat = new app.Realtime('{{ flat_feed.id }}', '{{ flat_feed.token }}', '#flat');
-				aggregated = new app.Realtime('{{ aggregated_feed.id }}', '{{ aggregated_feed.token }}', '#aggregated');
-				user = new app.Realtime('{{ user_feed.id }}', '{{ user_feed.token }}', '#user');
-				notification = new app.Realtime('{{ notification_feed.id }}', '{{ notification_feed.token }}', '#notification');
+				{% if false %}
+					flat = new app.Realtime('{{ flat_feed.id }}', '{{ flat_feed.token }}', '#flat');
+					aggregated = new app.Realtime('{{ aggregated_feed.id }}', '{{ aggregated_feed.token }}', '#aggregated');
+					user = new app.Realtime('{{ user_feed.id }}', '{{ user_feed.token }}', '#user');
+				{% endif %}
+				notification = new app.Realtime('{{ notification_feed.id }}', '{{ notification_feed.token }}', '#notifications_inner');
 			{% endif %}
 		</script>
 		

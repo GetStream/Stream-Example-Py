@@ -25,7 +25,7 @@
             {% if request.user.is_authenticated %}
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="glyphicon glyphicon-inbox"></i>  <b class="caret"></b>
+                        <i class="glyphicon glyphicon-inbox"></i>  <span class="badge notifications-badge text-danger" id="notifications_inner" style="display:none;">0</span><b class="caret"></b>
                     </a>
                     <ul id="notifications" class="dropdown-menu">
                     </ul>
