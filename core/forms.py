@@ -18,12 +18,17 @@ class PinForm(forms.Form):
         influencer = self.cleaned_data['influencer']
         remove = bool(int(self.cleaned_data.get('remove', 0) or 0))
         if remove:
+            now = datetime.now()
             pins = Pin.objects.filter(
                 user=self.user, item=item)
             for pin in pins:
-                pin.delete()
+                pin.deleted_at = now
+                pin.save()
         else:
-            pin = Pin.objects.create(user=self.user, item_id=item, influencer_id=influencer)
+            pin, created = Pin.objects.get_or_create(user=self.user, item_id=item, influencer_id=influencer)
+            if not created:
+                pin.deleted_at = None
+                pin.save()
 
 
 class FollowForm(forms.Form):

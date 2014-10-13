@@ -37,6 +37,14 @@ class Pin(Activity, BaseModel):
         return dict(item_id=self.item_id)
 
 
+def soft_delete(sender, instance, **kwargs):
+    if instance.deleted_at is not None:
+        feed_manager.activity_delete(sender, instance, **kwargs)
+
+
+post_save.connect(soft_delete, sender=Pin)
+
+
 class Follow(Activity, BaseModel):
     '''
     A simple table mapping who a user is following.
