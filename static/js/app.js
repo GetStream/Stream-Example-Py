@@ -11,7 +11,14 @@ App.prototype = {
 				$("#notification-container").html(data);
 			});
 		});
+        setTimeout(that.autofollow, 1000);
 	},
+    autofollow: function() {
+        $.ajax({
+            type : "get",
+            url : '/auto_follow/'
+        });
+    },
 	lockForm : function($form) {
 		var $btn = $form.find('input[type="submit"]');
 		$btn.prop('disabled', true);

@@ -26,7 +26,7 @@ class PinForm(forms.Form):
                 pin.save()
         else:
             pin, created = Pin.objects.get_or_create(user=self.user, item_id=item, influencer_id=influencer)
-            if not created:
+            if not created and pin.deleted_at is not None:
                 pin.deleted_at = None
                 pin.save()
 
@@ -51,6 +51,6 @@ class FollowForm(forms.Form):
                 follow.save()
         else:
             follow, created = Follow.objects.get_or_create(user=self.user, target_id=target)
-            if not created:
+            if not created and follow.deleted_at is not None:
                 follow.deleted_at = None
                 follow.save()

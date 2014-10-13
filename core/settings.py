@@ -55,7 +55,7 @@ CACHES = {
 }
 
 
-COMPRESS_OFFLINE = False
+COMPRESS_OFFLINE = True
 COMPRESS_ENABLED = True
 COMPRESS_PRECOMPILERS = (
     ('text/x-sass', 'sass {infile} {outfile}'),
