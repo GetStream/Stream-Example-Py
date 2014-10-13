@@ -4,18 +4,18 @@
             <img class="pin-image" src="{{ MEDIA_URL }}{{ item.image }}">
         </div>
     </figure>
-    <form class="pin-bottom" method="POST" action="{% url 'pin' %}">
+    <form class="pin-bottom create-destroy" method="POST" action="{% url 'pin' %}">
 <!--         <textarea class="form-control" name="message" placeholder="Comment..."></textarea> -->
         {% csrf_token %}
         <div class="media">
         {% if item.pinned %}
             <div class="pull-left">
-                <input class="btn btn-danger btn-sm" type="submit" value="Unpin">
+                <input class="btn btn-danger btn-sm" type="submit" value="Unpin" data-toggle="Unpin">
             </div>
             <input name="remove" type="hidden" value="1">
         {% else %}
             <div class="pull-left">
-                <input class="btn btn-primary btn-sm" type="submit" value="Pin">
+                <input class="btn btn-primary btn-sm" type="submit" value="Pin" data-toggle="Pin">
             </div>
         {% endif %}
         </div>

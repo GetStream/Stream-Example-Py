@@ -13,13 +13,13 @@
         {% if not hide_description %}
             <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
         {% endif %}
-        <form method="POST" action="{% url 'follow' %}">
+        <form method="POST" action="{% url 'follow' %}" class="create-destroy">
             {% csrf_token %}
             {% if profile_user.followed %}
                 <input name="remove" type="hidden" value="1">
-                <input class="btn btn-default btn-danger" type="submit" value="Unfollow">
+                <input class="btn btn-default btn-danger btn-destroy" type="submit" value="Unfollow" data-toggle="Follow">
             {% else %}
-                <input class="btn btn-default" type="submit" value="Follow">
+                <input class="btn btn-default btn-create" type="submit" value="Follow" data-toggle="Unfollow">
             {% endif %}
             <input name="target" type="hidden" value="{{ profile_user.id }}">
             <input name="next" type="hidden" value="{{ request.path }}">

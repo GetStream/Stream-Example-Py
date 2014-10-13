@@ -14,6 +14,16 @@ from core.enrich import do_i_follow_users
 import json
 
 
+def redirect_to_next(request):
+    return HttpResponseRedirect(request.REQUEST.get('next', '/'))
+
+
+def render_output(output):
+    ajax_response = HttpResponse(
+        json.dumps(output), content_type='application/json')
+    return ajax_response
+
+
 def trending(request):
     '''
     The most popular items
@@ -102,21 +112,11 @@ def pin(request):
             pin = form.save()
             if pin:
                 output['pin'] = dict(id=pin.id)
-            if not request.GET.get('ajax'):
+            if not request.is_ajax():
                 return redirect_to_next(request)
         else:
             output['errors'] = dict(form.errors.items())
     return render_output(output)
-
-
-def redirect_to_next(request):
-    return HttpResponseRedirect(request.REQUEST.get('next', '/'))
-
-
-def render_output(output):
-    ajax_response = HttpResponse(
-        json.dumps(output), content_type='application/json')
-    return ajax_response
 
 
 @login_required
@@ -143,7 +143,7 @@ def follow(request):
             follow = form.save()
             if follow:
                 output['follow'] = dict(id=follow.id)
-            if not request.GET.get('ajax'):
+            if not request.is_ajax():
                 return redirect_to_next(request)
         else:
             output['errors'] = dict(form.errors.items())
