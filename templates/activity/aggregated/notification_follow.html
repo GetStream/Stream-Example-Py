@@ -1,20 +1,24 @@
 {% load activity_tags %}
 {% load socialaccount %}
+{% with activity.activities.0 as last_activity %}
+{% with last_activity.object.target as target %}
+{% get_social_accounts target as accounts %}
 
-<div class="aggregation media">
-    {% with activity.activities.0 as last_activity %}
-        <article class="pin">
+<li class="notification-item" style="border: 1px red;">
+	<div>
+        <article>
             <figure>
-                <div class="pin-image-holder">
-                    {% with last_activity.object.target as target %}
-                        {% get_social_accounts target as accounts %}
-                        <img class="pin-image" src="{{ accounts.github.0.extra_data.avatar_url }}" width="32">
-                    <figcaption class="follow-caption">
+                <div>
+                    <img src="{{ accounts.github.0.extra_data.avatar_url }}" width="32">
+                    <figcaption>
                         {{ last_activity.actor.first_name }} {% if activity.activities|slice:"1:"|length > 1 %}and {{ activity.activities|slice:"1:"|length }} more{% endif %} followed you {{ last_activity.time|timesince }} ago
                     </figcaption>
-                    {% endwith %}
                 </div>
             </figure>
         </article>
-    {% endwith %}
-</div>
+	</div>
+</li>
+
+
+{% endwith %}
+{% endwith %}
