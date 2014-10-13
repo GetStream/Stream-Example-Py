@@ -38,6 +38,28 @@ App.prototype = {
         this.lockForm($form);
         return false;
     }
-}
+};
 
 window.app = new App();
+app.Realtime = function () {
+    this.initialize.apply(this, arguments);
+};
+
+app.Realtime.prototype = {
+    initialize: function(feedId, token, elementIdentifier) {
+    	this.feedId = feedId;
+    	this.token = token;
+    	this.elementIdentifier = elementIdentifier;
+    	this.client = streamClient;
+    	this.feed = this.client.feed(feedId, this.token);
+    	var scope = this;
+    	function changeBound() {
+    		return scope.changed.apply(scope, arguments);
+    	}
+    	this.feed.subscribe(changeBound);
+    	this.element = $(elementIdentifier);
+	},
+	changed: function(data) {
+		alert(data);
+	}
+};

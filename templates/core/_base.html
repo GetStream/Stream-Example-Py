@@ -1,4 +1,5 @@
 {% load compress %}
+{% load activity_tags %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -57,9 +58,19 @@
 			</article>
 		</section>
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-		{% compress js %}
-			<script src="/static/js/bootstrap.min.js"></script>
-			<script src="/static/js/app.js"></script>
-		{% endcompress %}
+		<script src="/static/js/bootstrap.min.js"></script>
+		<script src="/static/js/getstream.js"></script>
+		<script src="/static/js/app.js"></script>
+		<script>
+			streamClient = stream.connect('{{ STREAM_API_KEY }}', null, {{ STREAM_SITE_ID }});
+			
+			{% if request.user.is_authenticated %}
+				var flat = new app.Realtime('{{ flat.id }}', '{{ flat.token }}', '#flat');
+				var aggregated = new app.Realtime('{{ aggregated.id }}', '{{ aggregated.token }}', '#aggregated');
+				var user = new app.Realtime('{{ user.id }}', '{{ user.token }}', '#user');
+				var notification = new app.Realtime('{{ notification.id }}', '{{ notification.token }}', '#notification');
+			{% endif %}
+		</script>
+		
 	</body>
 </html>
