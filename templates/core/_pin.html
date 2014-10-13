@@ -36,5 +36,6 @@
     </form>
     <footer class="pin-attribution">
         by <a href="{% url 'profile' pin.item.user.username %}">{{ pin.item.user }}</a>{% if pin.item.created_at %} {{ pin.item.created_at|timesince }} ago {% endif %}
+        {% if activity.time %} {{ activity.time|timesince }} ago {% endif %}
     </footer>
 </article>

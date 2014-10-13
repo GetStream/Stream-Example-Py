@@ -126,6 +126,14 @@ body {
 	word-wrap: break-word;
 }
 
+.follow-caption {
+  padding: $grid-gutter-width / 2 $grid-gutter-width / 2 $grid-gutter-width / 2 $grid-gutter-width / 2;
+  color: $gray;
+  font-size: 12px;
+  line-height: 17px;
+  word-wrap: break-word;
+}
+
 .pin-bottom {
 	padding: $grid-gutter-width / 2;
 }

@@ -41,8 +41,6 @@ def feed(request):
     enricher = Enrich(request.user)
     context = RequestContext(request)
     feed = feed_manager.get_news_feeds(request.user.id)['flat']
-    if request.REQUEST.get('delete'):
-        feed.delete()
     activities = feed.get(limit=25)['results']
     context['activities'] = enricher.enrich_activities(activities)
     response = render_to_response('core/feed.html', context)
@@ -57,8 +55,6 @@ def aggregated_feed(request):
     enricher = Enrich(request.user)
     context = RequestContext(request)
     feed = feed_manager.get_news_feeds(request.user.id)['aggregated']
-    if request.REQUEST.get('delete'):
-        feed.delete()
     activities = feed.get(limit=25)['results']
     context['activities'] = enricher.enrich_aggregated_activities(activities)
     response = render_to_response('core/aggregated_feed.html', context)
@@ -72,8 +68,6 @@ def profile(request, username):
     enricher = Enrich(request.user)
     profile_user = get_user_model().objects.get(username=username)
     feed = feed_manager.get_user_feed(profile_user.id)
-    if request.REQUEST.get('delete'):
-        feed.delete()
     activities = feed.get(limit=25)['results']
     context = RequestContext(request)
     do_i_follow_users(request.user, [profile_user])
@@ -86,7 +80,9 @@ def profile(request, username):
 @login_required
 def people(request):
     context = RequestContext(request)
-    people = get_user_model().objects.all()[:25]
+    people = get_user_model().objects.all()
+    people = people.exclude(username__in=['admin', 'bogus'])
+    people = people[:25]
     do_i_follow_users(request.user, people)
     context['people'] = people
     response = render_to_response('core/people.html', context)
