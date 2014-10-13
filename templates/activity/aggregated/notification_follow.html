@@ -1,8 +1,7 @@
 {% load activity_tags %}
 {% load socialaccount %}
 {% with activity.activities.0 as last_activity %}
-{% with last_activity.object.target as target %}
-{% get_social_accounts target as accounts %}
+{% get_social_accounts last_activity.object.user as accounts %}
 
 <li class="notification-item" style="border: 1px red;">
 	<div>
@@ -20,5 +19,4 @@
 </li>
 
 
-{% endwith %}
 {% endwith %}
