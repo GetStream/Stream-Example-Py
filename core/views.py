@@ -156,6 +156,6 @@ def auto_follow(request):
     '''
     silly view that let a random user follow current user
     '''
-    admin = get_user_model().objects.get(username='admin')
+    admin = get_user_model().objects.get(username='tbarbugli')
     Follow.objects.get_or_create(user=admin, target_id=request.user.id)
     return HttpResponse('{}', content_type='application/json')
