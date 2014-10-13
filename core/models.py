@@ -54,7 +54,7 @@ class Follow(Activity, BaseModel):
     @property
     def activity_notify(self):
         target_feed = feed_manager.get_notification_feed(self.target_id)
-        return [target_feed.id]
+        return [target_feed]
 
 
 def follow_feed(sender, instance, created, **kwargs):

@@ -54,6 +54,7 @@ app.Realtime.prototype = {
     	this.feed = this.client.feed(feedId, this.token);
     	var scope = this;
     	function changeBound() {
+    		alert('change');
     		return scope.changed.apply(scope, arguments);
     	}
     	this.feed.subscribe(changeBound);
