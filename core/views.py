@@ -71,6 +71,17 @@ def aggregated_feed(request):
     return response
 
 
+@login_required
+def notification_feed(request):
+    enricher = Enrich(request.user)
+    context = RequestContext(request)
+    feed = feed_manager.get_notification_feed(request.user.id)
+    activities = feed.get(limit=25)['results']
+    context['activities'] = enricher.enrich_aggregated_activities(activities)
+    response = render_to_response('core/aggregated_feed.html', context)
+    return response
+
+
 def profile(request, username):
     '''
     Shows the users profile
@@ -117,17 +128,6 @@ def pin(request):
         else:
             output['errors'] = dict(form.errors.items())
     return render_output(output)
-
-
-@login_required
-def notification_feed(request):
-    enricher = Enrich(request.user)
-    feed = feed_manager.get_notification_feed(request.user.id)
-    if request.REQUEST.get('delete'):
-        feed.delete()
-    activities = feed.get(limit=25)['results']
-    activities = enricher.enrich_activities(activities)
-    return render_output(activities)
 
 
 @login_required

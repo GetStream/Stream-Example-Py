@@ -30,13 +30,13 @@ class Enrich(BaseEnrich):
         self.current_user = current_user
 
     def fetch_pin_instances(self, pks):
-        pins = Pin.objects.select_related(*Pin.related_models()).in_bulk(pks)
+        pins = Pin.objects.select_related(*Pin.activity_related_models()).in_bulk(pks)
         if self.current_user.is_authenticated():
             did_i_pin(self.current_user, pins.values())
         return pins
 
     def fetch_follow_instances(self, pks):
-        follows = Follow.objects.select_related(*Follow.related_models()).in_bulk(pks)
+        follows = Follow.objects.select_related(*Follow.activity_related_models()).in_bulk(pks)
         if self.current_user.is_authenticated():
             do_i_follow(self.current_user, follows.values())
         return follows

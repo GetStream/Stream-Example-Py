@@ -28,7 +28,7 @@ class Pin(Activity, BaseModel):
     message = models.TextField(blank=True, null=True)
 
     @classmethod
-    def related_models(cls):
+    def activity_related_models(cls):
         return ['user', 'item']
 
     @property
@@ -48,8 +48,13 @@ class Follow(Activity, BaseModel):
         settings.AUTH_USER_MODEL, related_name='follower_set')
 
     @classmethod
-    def related_models(cls):
+    def activity_related_models(cls):
         return ['user', 'target']
+
+    @property
+    def activity_notify(self):
+        target_feed = feed_manager.get_notification_feed(self.target_id)
+        return [target_feed]
 
 
 def follow_feed(sender, instance, created, **kwargs):
