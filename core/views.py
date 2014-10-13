@@ -120,6 +120,17 @@ def render_output(output):
 
 
 @login_required
+def notification_feed(request):
+    enricher = Enrich(request.user)
+    feed = feed_manager.get_notification_feed(request.user.id)
+    if request.REQUEST.get('delete'):
+        feed.delete()
+    activities = feed.get(limit=25)['results']
+    activities = enricher.enrich_activities(activities)
+    return render_output(activities)
+
+
+@login_required
 def follow(request):
     '''
     A view to follow other users
