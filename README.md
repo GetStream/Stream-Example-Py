@@ -4,7 +4,7 @@ This example Django app shows you how you can use [GetStream.io](https://getstre
 
 ### Demo
 
-You can [try the demo here](http://cryptic-waters-4962.herokuapp.com/).
+You can [try the demo here](http://exampledjango.getstream.io).
 Alternatively you can deploy your own copy of the demo via Heroku.
 
 ### Heroku
