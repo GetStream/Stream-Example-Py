@@ -62,7 +62,7 @@
 		<script src="/static/js/getstream.js"></script>
 		<script src="/static/js/app.js"></script>
 		<script>
-			streamClient = stream.connect('{{ STREAM_API_KEY }}', null, {{ STREAM_SITE_ID }});
+			streamClient = stream.connect('{{ STREAM_API_KEY }}', null, {{ STREAM_APP_ID }});
 			
 			{% if request.user.is_authenticated %}
 				{% if false %}
