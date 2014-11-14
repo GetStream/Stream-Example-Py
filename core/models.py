@@ -66,15 +66,17 @@ class Follow(Activity, BaseModel):
         return [target_feed]
 
 
-def follow_feed(sender, instance, created, **kwargs):
+def follow_change(sender, instance, created, **kwargs):
     if created:
         feed_manager.follow_user(instance.user_id, instance.target_id)
+    if instance.deleted_at is not None:
+        feed_manager.unfollow_user(instance.user_id, instance.target_id)
 
 
 def unfollow_feed(sender, instance, **kwargs):
     feed_manager.unfollow_user(instance.user_id, instance.target_id)
 
 
-post_save.connect(follow_feed, sender=Follow)
+post_save.connect(follow_change, sender=Follow)
 post_delete.connect(unfollow_feed, sender=Follow)
 
