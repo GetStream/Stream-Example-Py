@@ -33,6 +33,10 @@ class Pin(Activity, BaseModel):
         return ['user', 'item']
 
     @property
+    def activity_object(self):
+        return self
+
+    @property
     def extra_activity_data(self):
         return dict(item_id=self.item_id)
 
@@ -59,6 +63,10 @@ class Follow(Activity, BaseModel):
     @classmethod
     def activity_related_models(cls):
         return ['user', 'target']
+
+    @property
+    def activity_object(self):
+        return self
 
     @property
     def activity_notify(self):
