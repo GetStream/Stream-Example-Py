@@ -33,7 +33,7 @@ class Pin(Activity, BaseModel):
         return ['user', 'item']
 
     @property
-    def activity_object(self):
+    def activity_object_attr(self):
         return self
 
     @property
@@ -65,7 +65,7 @@ class Follow(Activity, BaseModel):
         return ['user', 'target']
 
     @property
-    def activity_object(self):
+    def activity_object_attr(self):
         return self
 
     @property
