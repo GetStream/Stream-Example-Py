@@ -75,9 +75,9 @@ class Follow(Activity, BaseModel):
 
 
 def follow_change(sender, instance, created, **kwargs):
-    if created:
+    if instance.deleted_at is None:
         feed_manager.follow_user(instance.user_id, instance.target_id)
-    if instance.deleted_at is not None:
+    else:
         feed_manager.unfollow_user(instance.user_id, instance.target_id)
 
 
