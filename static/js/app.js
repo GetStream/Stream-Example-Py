@@ -57,20 +57,21 @@ app.Realtime = function() {
 };
 
 app.Realtime.prototype = {
-	initialize : function(feedId, token, elementIdentifier) {
-		this.feedId = feedId;
+	initialize : function(feed_slug, feed_user_id, token, elementIdentifier, initialCount) {
 		this.token = token;
 		this.elementIdentifier = elementIdentifier;
 		this.client = streamClient;
-		this.feed = this.client.feed(feedId, this.token);
-		var scope = this;
-		function changeBound() {
-			return scope.changed.apply(scope, arguments);
-		}
-
-
-		this.feed.subscribe(changeBound);
+		this.feed = this.client.feed(feed_slug, feed_user_id, this.token);
+		var self = this;
 		this.element = $(elementIdentifier);
+		function changeBound() {
+			return self.changed.apply(self, arguments);
+		}
+		if (initialCount > 0) {
+			this.element.html(initialCount);
+			this.element.show();
+		}
+		this.feed.subscribe(changeBound);
 	},
 	changed : function(data) {
 		var unseen = data.unseen;
