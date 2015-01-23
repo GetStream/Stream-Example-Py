@@ -15,4 +15,5 @@ def unseen_notifications(request):
     if request.user.is_authenticated():
         feed = feed_manager.get_feed('notification', request.user.id)
         context['unseen_notifications'] = feed.get().get('unseen', 0)
+        context['unread_notifications'] = feed.get().get('unread', 0)
     return context
