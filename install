@@ -4,7 +4,8 @@
 4. get your API credentials (key and secret) and store them in settings.py (STREAM_API_KEY and STREAM_API_SECRET)
 5. install ruby dependencies (compass) via bundler ``` bundler ``` or with gem ``` gem install compass ```
 6. initialize your app ``` ./setup-heroku.sh ```
-7. start the webserver ``` python manage.py runserver ```
-8. open your browser on http://localhost:8000
+7. collect static files '''python manage.py collectstatic''' 
+8. start the webserver ``` python manage.py runserver ```
+9. open your browser on http://localhost:8000
 
 If you have any problems please open a issue on github and paste any error you get in the console.
