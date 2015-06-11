@@ -1,0 +1,22 @@
+{% load activity_tags %}
+{% load socialaccount %}
+{% with activity.activities.0 as last_activity %}
+{% get_social_accounts last_activity.object.user as accounts %}
+
+<li class="notification-item" style="border: 1px red;">
+	<div>
+        <article>
+            <figure>
+                <div>
+                    <img src="{{ accounts.github.0.extra_data.avatar_url }}" width="32">
+                    <figcaption>
+                        {{ last_activity.actor.first_name }} {% if activity.activities|slice:"1:"|length > 1 %}and {{ activity.activities|slice:"1:"|length }} more{% endif %} followed you {{ last_activity.time|timesince }} ago
+                    </figcaption>
+                </div>
+            </figure>
+        </article>
+	</div>
+</li>
+
+
+{% endwith %}

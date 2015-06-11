@@ -1,0 +1,29 @@
+<article class="pin">
+    <figure>
+        <div class="pin-image-holder">
+            <img class="pin-image" src="{{ MEDIA_URL }}{{ item.image }}">
+        </div>
+    </figure>
+    <form class="pin-bottom create-destroy" method="POST" action="{% url 'pin' %}">
+<!--         <textarea class="form-control" name="message" placeholder="Comment..."></textarea> -->
+        {% csrf_token %}
+        <div class="media">
+        {% if item.pinned %}
+            <div class="pull-left">
+                <input class="btn btn-danger btn-sm" type="submit" value="Unpin" data-toggle="Unpin">
+            </div>
+            <input name="remove" type="hidden" value="1">
+        {% else %}
+            <div class="pull-left">
+                <input class="btn btn-primary btn-sm" type="submit" value="Pin" data-toggle="Pin">
+            </div>
+        {% endif %}
+        </div>
+        <input name="influencer" type="hidden" value="{{ item.user_id }}">
+        <input name="item" type="hidden" value="{{ item.id }}">
+        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+    </form>
+    <footer class="pin-attribution">
+        by <a href="{% url 'profile' item.user.username %}">{{ item.user }}</a>{% if item.created_at %} {{ item.created_at|timesince }} ago {% endif %}
+    </footer>
+</article>

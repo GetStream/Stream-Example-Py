@@ -1,0 +1,46 @@
+{% load activity_tags %}
+{% load socialaccount %}
+
+<div class="aggregation media">
+    <div class="pull-left">
+    	{% with activity.activities.0.actor as actor %}
+    		{% get_social_accounts actor as accounts %}
+        	<img src="{{ accounts.github.0.extra_data.avatar_url }}" width="55px">
+    	{% endwith %}
+    </div>
+    <div class="media-body">
+        <div class="media-heading">
+            <div class="aggregation-header">
+                <div class="aggregation-time pull-right">
+                    <i class="glyphicon glyphicon-time"></i> {{ activity.updated_at|timesince }} ago
+                </div>
+                <div class="aggregation-title">
+                    <span>{{ activity.activities|length }} follow{{ activity.activities|length|pluralize }} </span>
+                </div>
+            </div>
+        </div>
+        {% for activity in activity.activities|slice:":3" %}
+			<article class="pin">
+			    <figure>
+			        <div class="pin-image-holder">
+			            {% with activity.object.target as target %}
+			            	{% get_social_accounts target as accounts %}
+			            	<img class="pin-image" src="{{ accounts.github.0.extra_data.avatar_url }}">
+			            
+			            <figcaption class="follow-caption">
+			                {{ activity.actor.first_name }} followed {{ target.username }}
+			            </figcaption>
+			            {% endwith %}
+			        </div>
+			    </figure>
+			    <footer class="pin-attribution">
+			    	by <a href="{% url 'profile' activity.actor.username %}">{{ activity.actor }}</a>
+			        {{ activity.time|timesince }} ago
+			    </footer>
+			</article>
+        {% endfor %}
+        {% if activity.activities|length > 3 %}
+            and {{ activity.activities|slice:"3:"|length }} more
+        {% endif %}
+    </div>
+</div>

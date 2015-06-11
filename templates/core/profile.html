@@ -1,0 +1,9 @@
+{% extends 'core/_base.html' %}
+
+{% block nav %}
+    {% include "core/_nav.html" with location='profile' %}
+{% endblock nav %}
+
+{% block content %}
+    {% include 'core/_profile.html' with show_feed=True %}
+{% endblock content %}

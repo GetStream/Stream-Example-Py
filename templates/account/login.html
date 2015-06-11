@@ -1,0 +1,11 @@
+{% extends 'core/_base.html' %}
+
+{% block nav %}
+    {% include "core/_nav.html" with location='trending' %}
+{% endblock nav %}
+
+{% block content %}
+    <div class="container">
+        <h2><a href="/accounts/github/login/?process=login">Sign in with GitHub</a></h2>
+    </div>
+{% endblock content %}

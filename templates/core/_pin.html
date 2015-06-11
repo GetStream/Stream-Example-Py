@@ -1,0 +1,41 @@
+<article class="pin">
+    <figure>
+        <div class="pin-image-holder">
+            <img class="pin-image" src="{{ MEDIA_URL }}{{ pin.item.image }}">
+        </div>
+        {% if pin.message %}
+            <figcaption class="pin-caption">
+                {{ pin.message }}
+            </figcaption>
+        {% endif %}
+    </figure>
+    <form class="pin-bottom create-destroy" method="POST" action="{% url 'pin' %}">
+        <!-- <textarea class="form-control" name="message" placeholder="Comment..."></textarea> -->
+        {% csrf_token %}
+        <div class="media">
+        {% if pin.item.pinned %}
+            <div class="pull-left">
+                <input class="btn btn-danger btn-sm" type="submit" value="Unpin" data-toggle="Pin">
+            </div>
+            <input name="remove" type="hidden" value="1">
+        {% else %}
+            <div class="pull-left">
+                <input class="btn btn-primary btn-sm" type="submit" value="Pin" data-toggle="Unpin">
+            </div>
+        {% endif %}
+            <div class="media-body">
+                <div class="input-group input-group-sm">
+                    <span class="input-group-addon text-muted">in</span>
+                    <input class="form-control" name="board_name" placeholder="Board name" type="text" value="My favourite things">
+                </div>
+            </div>
+        </div>
+        <input name="influencer" type="hidden" value="{{ pin.item.user_id }}">
+        <input name="item" type="hidden" value="{{ pin.item.id }}">
+        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+    </form>
+    <footer class="pin-attribution">
+        by <a href="{% url 'profile' pin.item.user.username %}">{{ pin.item.user }}</a>{% if pin.item.created_at %} {{ pin.item.created_at|timesince }} ago {% endif %}
+        {% if activity.time %} {{ activity.time|timesince }} ago {% endif %}
+    </footer>
+</article>

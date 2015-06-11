@@ -1,0 +1,9 @@
+{% load activity_tags %}
+
+    {% for aggregated_activity in activities %}
+        <div id="wrapper">
+            <li>
+                {% render_activity aggregated_activity 'notification' %}
+            </li>
+        </div>
+    {% endfor %}

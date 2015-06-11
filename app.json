@@ -1,0 +1,23 @@
+{
+  "name": "Stream Example App",
+  "description": "Pinterest esque example app using GetStream.io",
+  "keywords": [
+    "getstream.io",
+    "HTML5",
+    "python"
+  ],
+  "website": "https://getstream.io/",
+  "repository": "https://github.com/GetStream/stream-example-py",
+  "logo": "http://33.media.tumblr.com/avatar_be8b5eef9ae6_128.png",
+  "success_url": "/",
+  "env": {
+    "BUILDPACK_URL": "git://github.com/heroku/heroku-buildpack-python.git",
+    "DISABLE_COLLECTSTATIC": "1"
+  },
+  "addons": [
+    "stream", "heroku-postgresql:hobby-dev", "rollbar"
+  ],
+  "scripts": {
+    "postdeploy": "python manage.py after_deploy"
+  }
+}
