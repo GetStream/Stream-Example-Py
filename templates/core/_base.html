@@ -70,7 +70,7 @@
 				// 	aggregated = new app.Realtime('{{ aggregated_feed.slug }}', '{{ aggregated_feed.user_id }}', '{{ aggregated_feed.token }}', '#aggregated');
 				// 	user = new app.Realtime('{{ user_feed.slug }}', '{{ user_feed.user_id }}', '{{ user_feed.token }}', '#user');
 				// {% endif %}
-				notification = new app.Realtime('{{ notification_feed.slug }}', '{{ notification_feed.user_id }}', '{{ notification_feed.token }}', '#notifications_inner', {{ unseen_notifications }});
+				notification = new app.Realtime('{{ notification_feed.slug }}', '{{ notification_feed.user_id }}', '{{ notification_feed.get_readonly_token }}', '#notifications_inner', {{ unseen_notifications }});
 			{% endif %}
 		</script>
 		
