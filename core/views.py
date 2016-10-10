@@ -16,7 +16,7 @@ import json
 
 
 def redirect_to_next(request):
-    return HttpResponseRedirect(request.REQUEST.get('next', '/'))
+    return HttpResponseRedirect(request.POST.get('next', '/'))
 
 
 def render_output(output):
