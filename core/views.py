@@ -51,7 +51,7 @@ def feed(request):
     '''
     enricher = Enrich(request.user)
     context = RequestContext(request)
-    feed = feed_manager.get_news_feeds(request.user.id)['flat']
+    feed = feed_manager.get_news_feeds(request.user.id)['timeline']
     activities = feed.get(limit=25)['results']
     context['activities'] = enricher.enrich_activities(activities)
     response = render_to_response('core/feed.html', context)
@@ -65,7 +65,7 @@ def aggregated_feed(request):
     '''
     enricher = Enrich(request.user)
     context = RequestContext(request)
-    feed = feed_manager.get_news_feeds(request.user.id)['aggregated']
+    feed = feed_manager.get_news_feeds(request.user.id)['timeline_aggregated']
     activities = feed.get(limit=25)['results']
     context['activities'] = enricher.enrich_aggregated_activities(activities)
     response = render_to_response('core/aggregated_feed.html', context)

@@ -56,7 +56,7 @@ def feed(request):
     '''
     enricher = Enrich(request.user)
     context = RequestContext(request)
-    feed = feed_manager.get_news_feeds(request.user.id)['flat']
+    feed = feed_manager.get_news_feeds(request.user.id)['timeline']
     if request.REQUEST.get('delete'):
         feed.delete()
     activities = feed.get(limit=25)['results']
