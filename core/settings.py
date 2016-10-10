@@ -74,9 +74,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'stream_django.context_processors.stream',
     'core.context_processors.user_feeds',
     'core.context_processors.unseen_notifications',
-    # allauth specific context processors
-    "allauth.account.context_processors.account",
-    "allauth.socialaccount.context_processors.socialaccount",
 )
 
 # SECURITY WARNING: keep the secret key used in production secret!
