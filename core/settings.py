@@ -100,7 +100,6 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'stream_django',
     'core',
-    'south',
     'compressor',
     'allauth',
     'allauth.account',
