@@ -9,5 +9,6 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         call_command('syncdb', interactive=False)
         call_command('migrate', interactive=False)
+        call_command('loaddata', 'initial_data.json', interactive=False)
         admin = get_user_model().objects.get(username="admin")
         Follow.objects.create(user=admin, target=admin)
