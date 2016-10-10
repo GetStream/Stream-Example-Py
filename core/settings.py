@@ -22,12 +22,6 @@ TEMPLATE_ROOT = os.path.join(BASE_ROOT, 'templates/')
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 MEDIA_URL = '/media/'
-TEMPLATE_DIRS = (
-    TEMPLATE_ROOT,
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-)
 
 os.environ['MEMCACHE_SERVERS'] = os.environ.get('MEMCACHIER_SERVERS', '').replace(',', ';')
 os.environ['MEMCACHE_USERNAME'] = os.environ.get('MEMCACHIER_USERNAME', '')
@@ -54,6 +48,9 @@ CACHES = {
     }
 }
 
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = False
+
 
 COMPRESS_OFFLINE = True
 COMPRESS_ENABLED = True
@@ -62,25 +59,32 @@ COMPRESS_PRECOMPILERS = (
     ('text/x-scss', 'sass --scss {infile} {outfile}'),
 )
 
-TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.contrib.auth.context_processors.auth',
-    'django.core.context_processors.debug',
-    'django.core.context_processors.i18n',
-    'django.core.context_processors.media',
-    'django.core.context_processors.static',
-    'django.core.context_processors.tz',
-    'django.core.context_processors.request',
-    'django.contrib.messages.context_processors.messages',
-    'stream_django.context_processors.stream',
-    'core.context_processors.user_feeds',
-    'core.context_processors.unseen_notifications',
-)
+TEMPLATES = [{
+    'BACKEND': 'django.template.backends.django.DjangoTemplates',
+    'DIRS': [
+        TEMPLATE_ROOT
+    ],
+    'APP_DIRS': True,
+    'OPTIONS': {
+        'context_processors': [
+            'django.contrib.auth.context_processors.auth',
+            'django.template.context_processors.debug',
+            'django.template.context_processors.i18n',
+            'django.template.context_processors.media',
+            'django.template.context_processors.static',
+            'django.template.context_processors.tz',
+            'django.template.context_processors.request',
+            'django.contrib.messages.context_processors.messages',
+            'stream_django.context_processors.stream',
+            'core.context_processors.user_feeds',
+            'core.context_processors.unseen_notifications',
+        ],
+        'debug': DEBUG,
+    },
+},]
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'ib_^kc#v536)v$x!h3*#xs6&l8&7#4cqi^rjhczu85l9txbz+w'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = TEMPLATE_DEBUG = False
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 ALLOWED_HOSTS = ['*']
