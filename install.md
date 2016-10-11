@@ -9,7 +9,8 @@
     c. timline, flat
     d. timline_aggregated, aggregated
 
-5. get your API credentials (key and secret) and store them in `core/settings.py` (STREAM_API_KEY and STREAM_API_SECRET)
+5. get your API credentials (key and secret) and add them to the bottom of
+   `core/settings.py` (STREAM_API_KEY and STREAM_API_SECRET)
 6. Change the following settings in `core/settings.py`:
 
 ```python
