@@ -8,7 +8,7 @@
   ],
   "website": "https://getstream.io/",
   "repository": "https://github.com/GetStream/stream-example-py",
-  "logo": "http://blog.getstream.io/wp-content/uploads/2016/04/streamlogo-blog.png",
+  "logo": "https://dvqg2dogggmn6.cloudfront.net/images/stream_logo.svg",
   "success_url": "/",
   "env": {
     "BUILDPACK_URL": "git://github.com/heroku/heroku-buildpack-python.git",
