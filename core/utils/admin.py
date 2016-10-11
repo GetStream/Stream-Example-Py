@@ -39,11 +39,11 @@ def auto_register(models_module):
         value = getattr(models_module, x)
         try:
             model_class = issubclass(value, models.Model)
-        except TypeError, e:
+        except TypeError as e:
             model_class = False
         if model_class:
             try:
                 admin_config = auto_configure_admin(value)
                 admin.site.register(value, admin_config)
-            except Exception, e:
+            except Exception as e:
                 logger.info('couldnt register %s to the admin', value)
