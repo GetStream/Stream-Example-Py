@@ -10,5 +10,5 @@ pinterest_example/static/CACHE/
 .sass-cache
 .coverage
 
-*.sqlite3
+*.sqlite
 /static/admin

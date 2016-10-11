@@ -13,14 +13,14 @@
 6. Change the following settings in `core/settings.py`:
 
 ```python
-DEBUG = TEMPLATE_DEBUG = True
+DEBUG = True
 
 ...
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'testdatabase',
+        'NAME': 'testdatabase.sqlite',
     }
 }
 
