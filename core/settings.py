@@ -23,25 +23,6 @@ TEMPLATE_ROOT = os.path.join(BASE_ROOT, 'templates/')
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 MEDIA_URL = '/media/'
 
-os.environ['MEMCACHE_SERVERS'] = os.environ.get('MEMCACHIER_SERVERS', '').replace(',', ';')
-os.environ['MEMCACHE_USERNAME'] = os.environ.get('MEMCACHIER_USERNAME', '')
-os.environ['MEMCACHE_PASSWORD'] = os.environ.get('MEMCACHIER_PASSWORD', '')
-
-CACHES = {
-    'default': {
-        'BACKEND': 'django_pylibmc.memcached.PyLibMCCache',
-        'BINARY': True,
-        'OPTIONS': {
-            'no_block': True,
-            'tcp_nodelay': True,
-            'tcp_keepalive': True,
-            'remove_failed': 4,
-            'retry_timeout': 2,
-            'dead_timeout': 10,
-            '_poll_timeout': 2000
-        }
-    }
-}
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
