@@ -4,6 +4,7 @@ from django.contrib import admin
 from django.conf import settings
 import core.views as views
 from django.views.static import serve
+from django.views.generic import TemplateView
 
 admin.autodiscover()
 
@@ -31,7 +32,9 @@ urlpatterns = [
     # the admin
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include('allauth.urls')),
-    url(r'^auth/', include('django.contrib.auth.urls'))
+    url(r'^auth/', include('django.contrib.auth.urls')),
+    url(r'^robots.txt$', TemplateView.as_view(template_name='core/robots.txt',
+                                              content_type="text/plain"))
 ]
 
 
