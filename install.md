@@ -30,7 +30,8 @@ DATABASES = {
 7. install ruby dependencies (compass) via bundler `bundler` or with gem `gem install compass`
 8. initialize your app `python manage.py after_deploy`
 9. collect static files `python manage.py collectstatic`
-10. start the webserver `python manage.py runserver`
-11. open your browser on http://localhost:8000
+10. compress the static files `python manage.py compress`
+11. start the webserver `python manage.py runserver`
+12. open your browser on http://localhost:8000
 
 If you have any problems please open a issue on github and paste any error you get in the console.
