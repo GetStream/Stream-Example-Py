@@ -33,7 +33,7 @@ CACHES = {
 DEBUG = False
 
 
-COMPRESS_OFFLINE = True
+COMPRESS_OFFLINE = False
 COMPRESS_ENABLED = True
 COMPRESS_PRECOMPILERS = (
     ('text/x-sass', 'sass {infile} {outfile}'),
