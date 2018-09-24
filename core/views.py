@@ -6,8 +6,7 @@ from django.contrib.auth import authenticate, get_user_model, \
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render_to_response
-from django.template.context import RequestContext
+from django.shortcuts import render
 from stream_django.feed_manager import feed_manager
 from core.enrich import Enrich
 from core.enrich import did_i_pin_items
@@ -16,7 +15,7 @@ import json
 
 
 def redirect_to_next(request):
-    return HttpResponseRedirect(request.REQUEST.get('next', '/'))
+    return HttpResponseRedirect(request.POST.get('next', '/'))
 
 
 def render_output(output):
@@ -35,12 +34,12 @@ def trending(request):
         auth_login(request, admin_user)
 
     # show a few items
-    context = RequestContext(request)
+    context = {}
     popular = Item.objects.all()[:50]
     if request.user.is_authenticated():
         did_i_pin_items(request.user, popular)
     context['popular'] = popular
-    response = render_to_response('core/trending.html', context)
+    response = render(request, 'core/trending.html', context)
     return response
 
 
@@ -50,11 +49,11 @@ def feed(request):
     Items pinned by the people you follow
     '''
     enricher = Enrich(request.user)
-    context = RequestContext(request)
-    feed = feed_manager.get_news_feeds(request.user.id)['flat']
+    context = {}
+    feed = feed_manager.get_news_feeds(request.user.id)['timeline']
     activities = feed.get(limit=25)['results']
     context['activities'] = enricher.enrich_activities(activities)
-    response = render_to_response('core/feed.html', context)
+    response = render(request, 'core/feed.html', context)
     return response
 
 
@@ -64,22 +63,22 @@ def aggregated_feed(request):
     Items pinned by the people you follow
     '''
     enricher = Enrich(request.user)
-    context = RequestContext(request)
-    feed = feed_manager.get_news_feeds(request.user.id)['aggregated']
+    context = {}
+    feed = feed_manager.get_news_feeds(request.user.id)['timeline_aggregated']
     activities = feed.get(limit=25)['results']
     context['activities'] = enricher.enrich_aggregated_activities(activities)
-    response = render_to_response('core/aggregated_feed.html', context)
+    response = render(request, 'core/aggregated_feed.html', context)
     return response
 
 
 @login_required
 def notification_feed(request):
     enricher = Enrich(request.user)
-    context = RequestContext(request)
+    context = {}
     feed = feed_manager.get_notification_feed(request.user.id)
     activities = feed.get(limit=25, mark_seen='all')['results']
     context['activities'] = enricher.enrich_aggregated_activities(activities)
-    response = render_to_response('core/notification_feed.html', context)
+    response = render(request, 'core/notification_feed.html', context)
     return response
 
 
@@ -91,23 +90,23 @@ def profile(request, username):
     profile_user = get_user_model().objects.get(username=username)
     feed = feed_manager.get_user_feed(profile_user.id)
     activities = feed.get(limit=25)['results']
-    context = RequestContext(request)
+    context = {}
     do_i_follow_users(request.user, [profile_user])
     context['profile_user'] = profile_user
     context['activities'] = enricher.enrich_activities(activities)
-    response = render_to_response('core/profile.html', context)
+    response = render(request, 'core/profile.html', context)
     return response
 
 
 @login_required
 def people(request):
-    context = RequestContext(request)
+    context = {}
     people = get_user_model().objects.all()
     people = people.exclude(username__in=['admin', 'bogus'])
     people = people[:25]
     do_i_follow_users(request.user, people)
     context['people'] = people
-    response = render_to_response('core/people.html', context)
+    response = render(request, 'core/people.html', context)
     return response
 
 
