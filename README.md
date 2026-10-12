@@ -1,3 +1,5 @@
+> **This repository is archived and no longer maintained.** For a current alternative, see [the Feeds v3 Python docs](https://getstream.io/activity-feeds/docs/python/).
+
 ## Stream Django Example App
 
 This example Django app shows you how you can easily build a site similar to Pinterest.
